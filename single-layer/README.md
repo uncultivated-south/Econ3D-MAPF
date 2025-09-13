@@ -1,177 +1,238 @@
 # Econ-MAPF
 
-A hybrid multi-agent pathfinding system that combines Conflict-Based Search (CBS) with auction-based mechanisms for urban airspace management.
+A comprehensive simulation system for multi-agent pathfinding in urban airspace environments, featuring algorithmic coordination (CBS), market-based coordination (auctions), and hybrid approaches.
 
 ## Overview
 
-Econ-MAPF explores how algorithmic optimization can be seamlessly integrated with economic reasoning to solve complex multi-agent pathfinding problems. The system intelligently transitions between computational approaches (CBS) and market mechanisms (auctions) based on problem complexity and resource constraints.
+Econ-MAPF addresses the challenge of coordinating multiple agents (aircraft, drones) in shared airspace while considering both emergency priorities and economic factors. The system compares three coordination mechanisms:
 
-### Key Features
+- **CBS-only**: Pure algorithmic coordination using Conflict-Based Search
+- **Auction-only**: Pure market-based coordination with competitive bidding
+- **Hybrid**: CBS first, falling back to auctions when algorithmic approaches fail
 
-- **Hybrid Approach**: Combines CBS efficiency with auction robustness
-- **Priority-Based Processing**: Emergency agents receive absolute priority
-- **Economic Mechanisms**: Market-driven conflict resolution with budget constraints
-- **Scalable Architecture**: Handles varying problem sizes and complexities
-- **Comprehensive Evaluation**: Built-in metrics for efficiency, fairness, and performance analysis
+## Architecture
 
-## System Architecture
+### Core Modules
 
-### Four-Phase Processing Pipeline
+#### 1. Grid System (`grid_system.py`)
+The foundational spatial-temporal representation of airspace:
 
-1. **Emergency Processing**: Highest priority pathfinding for emergency agents
-2. **CBS Feasibility Analysis**: Algorithmic solution attempt for regular agents
-3. **Decision Point**: Intelligent transition logic between approaches
-4. **Multi-Round Auction**: Economic allocation with conflict resolution
+- **3D Grid**: Represents airspace as (x, y, time) discrete space
+- **Agent Management**: Handles emergency and non-emergency agents with priority-based coordination
+- **Path Reservations**: Thread-safe atomic path operations with transaction semantics
+- **Conflict Detection**: Real-time occupancy tracking and priority-based conflict resolution
 
-### Core Components
+Key features:
+- Priority-based cell reservations (emergency agents override non-emergency)
+- Atomic path updates with rollback capability
+- Thread-safe operations for concurrent access
+- Comprehensive validation and error handling
 
-- **Grid System**: 3D airspace representation with dynamic obstacle management
-- **A* Pathfinder**: Robust pathfinding with priority-based obstacle avoidance
-- **CBS Module**: Conflict detection, resolution, and feasibility analysis
-- **Auction System**: Multi-round bidding with strategy-based agents
-- **Main Orchestrator**: Integrated workflow management and evaluation
+#### 2. A* Pathfinding (`astar_pathfinding.py`)
+Enhanced pathfinding with constraint support:
 
-## System Configuration
+- **Multiple Heuristics**: Manhattan, Euclidean, diagonal, and custom heuristic functions
+- **Constraint Integration**: Vertex, edge, and temporal constraints from CBS
+- **Performance Optimization**: Configurable search limits and caching
+- **Priority-Aware Planning**: Respects agent priorities and existing reservations
 
-### Default Parameters
+Key features:
+- Separate caches for different heuristic types (prevents cache collisions)
+- Floating-point precision handling in node comparisons
+- Comprehensive constraint validation and application
+- Adaptive pathfinding configurations for different use cases
 
-| Parameter | Value | Description |
-|-----------|--------|-------------|
-| Grid Size | 20×20 | Spatial dimensions |
-| Max Time | 100 | Maximum time steps |
-| Emergency Agents | 2 | High-priority agents |
-| Non-Emergency Agents | 16 | Regular agents |
-| Budget Range | [1, 100] | Random budget allocation |
-| Max CBS Iterations | 400 | (width × height) limit |
-| Max Auction Rounds | 5 | Economic allocation rounds |
+#### 3. Conflict-Based Search (`cbs_system.py`)
+Multi-agent pathfinding with conflict resolution:
 
-### Pricing Formula
+- **Complete Conflict Detection**: Vertex, edge, and following conflicts
+- **Proper Constraint Implementation**: Actual constraint application to pathfinding
+- **Performance Monitoring**: Detailed search statistics and bottleneck identification
+- **Graceful Degradation**: Partial solutions when complete solutions aren't found
 
-```
-StartingPrice = (AvgBudget × 0.1) × (ConflictDensity × 0.2) + 0.1
-```
+Key features:
+- Fixed iteration limits (eliminates scaling bias)
+- Comprehensive conflict taxonomy (vertex/edge/following)
+- CBS-A* integration with proper constraint propagation
+- Auction candidate identification for seamless hybrid operation
 
-### Bidding Strategies
+#### 4. Auction System (`auction_module.py`)
+Market-based coordination with economic principles:
 
-- **Conservative**: Minimum increments (10%), budget preservation
-- **Aggressive**: Front-loaded bidding (150% early rounds), high risk/reward
-- **Balanced**: Consistent increments (30%), equal round treatment
+- **Precise Budget Management**: Decimal arithmetic prevents floating-point errors
+- **Transaction Safety**: Reserve → compete → commit/release pattern
+- **Dynamic Pricing**: Conflict density and market condition-based pricing
+- **Comprehensive Fairness Analysis**: Multiple fairness metrics and wealth distribution tracking
 
-## Processing Modes
+Key features:
+- Pareto distribution for realistic budget inequality
+- Multi-round bidding with adaptive strategies
+- CBS integration for conflict resolution among winners
+- Complete audit trail for all financial transactions
 
-### Hybrid Mode (Recommended)
+### Integration Module (`test.py`)
+Comprehensive experimental framework for system evaluation:
+
+- **Controlled Experimentation**: Identical test scenarios across all algorithms
+- **Statistical Analysis**: Multiple fairness metrics and performance comparisons  
+- **Scalability Testing**: Systematic evaluation across different agent counts
+- **Reproducible Results**: Seeded randomization for consistent comparisons
+
+## Quick Start
+
+### Basic Usage
+
 ```python
-result = sim.run_simulation(ProcessingMode.HYBRID)
-```
-- Attempts CBS first for computational efficiency
-- Falls back to auction if CBS exceeds iteration limits
-- Optimal balance of speed and robustness
+from grid_system import GridSystem, Agent, AgentType
+from astar_pathfinding import AStarPathfinder, create_conservative_config
+from cbs_system import create_cbs_solver
+from auction_module import create_auction_system
 
-### CBS Only Mode
+# Create grid system
+grid = GridSystem(20, 20, max_time=100)
+
+# Add static obstacles
+grid.add_static_obstacle(5, 5)
+grid.add_static_obstacle(10, 10)
+
+# Create agents
+emergency_agent = Agent(
+    id="emergency_1", 
+    agent_type=AgentType.EMERGENCY,
+    start=(0, 0), 
+    goal=(19, 19),
+    priority=100
+)
+
+regular_agent = Agent(
+    id=1,
+    agent_type=AgentType.NON_EMERGENCY,
+    start=(1, 1),
+    goal=(18, 18),
+    budget=50.0,
+    strategy="balanced"
+)
+
+# Add agents to grid
+grid.add_agent(emergency_agent)
+grid.add_agent(regular_agent)
+
+# Run CBS
+pathfinder = AStarPathfinder(grid, create_conservative_config())
+cbs = create_cbs_solver(grid, pathfinder)
+result = cbs.solve([emergency_agent, regular_agent])
+
+if result.success:
+    print(f"CBS found paths for {len(result.paths)} agents")
+else:
+    print("CBS failed - triggering auction")
+    # Run auction for remaining agents
+    auction = create_auction_system(grid, cbs, pathfinder)
+    # ... auction logic
+```
+
+### Running Experiments
+
 ```python
-result = sim.run_simulation(ProcessingMode.CBS_ONLY)
+from integration_test_module import ExperimentRunner
+
+# Configure experiment
+experiment = ExperimentRunner(base_seed=42)
+experiment.agent_counts = [8, 16, 24, 32]
+experiment.scenarios_per_count = 20
+
+# Run complete experimental study
+results = experiment.run_agent_count_experiment()
+
+# Generate summary report
+summary = experiment.generate_summary_report(results)
+print("Key Findings:", summary['key_findings'])
 ```
-- Pure algorithmic approach
-- Fast when successful, fails on complex scenarios
-- Useful for computational limit analysis
 
-### Auction Only Mode
-```python
-result = sim.run_simulation(ProcessingMode.AUCTION_ONLY)
-```
-- Pure economic approach
-- Robust but computationally intensive
-- Useful for market mechanism analysis
+## Experimental Design
 
-## Key Metrics
-
-### Performance Metrics
-- **Success Rate**: Percentage of agents receiving paths
-- **Computation Time**: Total processing time per simulation
-- **CBS Efficiency**: Iterations used vs. maximum allowed
-- **Auction Efficiency**: Revenue generated per round
+### Test Parameters
+- **Grid Size**: 20×20 spatial dimensions
+- **Static Obstacles**: 12 obstacles per scenario
+- **Regular Agents**: Variable count (4-32), subject to budget constraints
+- **Budget Distribution**: Pareto distribution (α=1.16) in range [1, 150]
+- **CBS Iteration Limit**: 4000 iterations before auction trigger
 
 ### Fairness Metrics
-- **Strategy Success Rates**: Performance by bidding strategy
-- **Budget Utilization**: Economic efficiency measures
-- **Emergency Priority**: Critical agent success rates
+1. **Success Rate by Budget Quartile**: Measures wealth-based access inequality
+2. **Gini Coefficient**: Measures inequality in success distribution
+3. **Budget Correlation Coefficient**: Measures correlation between wealth and success
 
-### Scalability Metrics
-- **Agent Density**: Performance vs. agent count
-- **Grid Utilization**: Spatial efficiency measures
-- **Conflict Resolution**: Market vs. algorithmic effectiveness
+### Scenarios Tested
+1. **CBS-only**: Pure algorithmic coordination
+2. **Auction-only**: Pure market-based coordination (CBS only for pricing initialization)
+3. **Hybrid**: CBS first with auction fallback (clean auction - no partial solution preservation)
 
-## Technical Implementation
+## Algorithm Details
 
-### Architecture Principles
-- **Modular Design**: Independent, replaceable components
-- **Clean Interfaces**: Standard data formats between modules
-- **Extensibility**: Easy addition of new strategies and mechanisms
-- **Performance Focus**: Efficient algorithms and data structures
+### CBS Implementation
+- **Conflict Detection**: Comprehensive vertex/edge/following conflict identification
+- **Constraint Generation**: Proper CBS constraint creation and application
+- **Search Strategy**: Priority-based conflict resolution with early termination
+- **Integration**: Seamless handoff to auction system when limits exceeded
 
-### Data Flow
-1. **Scenario Creation**: Agent configuration and grid initialization
-2. **Emergency Processing**: Priority pathfinding with dynamic obstacles
-3. **CBS Analysis**: Conflict detection and algorithmic resolution
-4. **Economic Processing**: Market-based allocation and validation
-5. **Result Integration**: Path assignment and performance measurement
+### Auction Mechanism
+- **Pricing Engine**: Dynamic pricing based on conflict density and market conditions
+- **Bidding Strategies**: Conservative, aggressive, balanced, and adaptive strategies
+- **Winner Selection**: Cell-by-cell highest bidder with complete path requirements
+- **Conflict Resolution**: CBS validation of auction winners with priority ordering
 
-### Key Classes and Functions
+### Hybrid Approach
+- **Switching Criteria**: Fixed iteration limit (4000) for consistent comparison
+- **Clean Transition**: Complete CBS solution discarded to ensure fair auction conditions
+- **Pricing Initialization**: CBS conflict density used for auction starting prices
 
+## Scalability
+The system demonstrates different scaling characteristics:
+- **CBS**: Excellent for low-conflict scenarios, degrades exponentially with conflict density
+- **Auction**: Linear scaling with agent count, robust to high-conflict scenarios
+- **Hybrid**: Best-case CBS performance with auction fallback protection
+
+## Limitations and Future Work
+
+### Current Limitations
+1. **2D Spatial Representation**: No altitude dimension (can be extended)
+2. **Discrete Time**: Continuous time not supported
+3. **Static Obstacles**: Dynamic obstacles not implemented
+4. **Weather Integration**: Environmental factors not considered
+
+### Future Enhancements
+1. **3D Airspace**: Full three-dimensional pathfinding
+2. **Dynamic Constraints**: Weather, temporary flight restrictions
+3. **Real-time Adaptation**: Online replanning capabilities
+4. **Machine Learning**: Adaptive strategy selection based on historical performance
+
+## Contributing
+
+### Code Structure
+The codebase follows a modular architecture with clear separation of concerns:
+- Each module has comprehensive error handling and logging
+- All financial operations use Decimal arithmetic for precision
+- Thread-safe operations throughout with proper locking
+- Extensive validation and testing infrastructure
+
+### Testing
+Run the integration tests to validate system behavior:
 ```python
-# Core system components
-GridSystem          # 3D airspace management
-AStarPathfinder    # Individual agent pathfinding
-ConflictBasedSearch # Multi-agent conflict resolution
-AuctionSystem      # Economic allocation mechanism
-UrbanAirspaceSim   # Main orchestration and evaluation
-
-# Utility functions
-create_simulation_system()    # System initialization
-run_evaluation_study()       # Comparative analysis
-demonstrate_system()         # Interactive demonstration
+python test.py
 ```
 
-## Troubleshooting
+Tests cover:
+- Individual module functionality
+- Inter-module integration
+- Performance characteristics
+- Fairness metric calculations
+- Edge cases and error conditions
 
-### Common Issues
+## References
 
-**CBS Timeout**: If CBS consistently exceeds iteration limits
-```python
-# Reduce problem complexity or increase limits
-sim.cbs.max_iterations = 800  # Increase iteration limit
-# Or use fewer agents in scenarios
-```
-
-**Auction Failures**: If no agents can afford paths
-```python
-# Adjust budget range or pricing parameters
-sim.default_budget_range = (10, 200)  # Increase budget range
-sim.auction.pricing_alpha = 0.05      # Reduce price sensitivity
-```
-
-**Memory Issues**: For large-scale simulations
-```python
-# Use smaller grids or fewer time steps
-sim = UrbanAirspaceSim(15, 15, max_time=50)
-```
-
-## License
-
-This project is licensed under Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0).
-
-## Future Work
-
-### Planned Features
-- **Econ3D-MAPF**: Expanding to three-dimensional space
-- **Machine Learning Integration**: Adaptive strategy learning
-- **Distributed Processing**: Multi-core CBS and auction processing
-- **Advanced Economic Models**: Dynamic pricing and complex auction formats
-
-### Research Directions
-- **Mechanism Design**: Optimal auction structures for airspace allocation
-- **Game Theory**: Strategic behavior analysis in multi-agent systems
-- **Robustness**: Performance under uncertainty and dynamic conditions
-- **Scalability**: Techniques for very large-scale urban airspace management
-
----
+This implementation is based on established research in:
+- Conflict-Based Search (Sharon et al., 2015)
+- Multi-agent pathfinding algorithms
+- Combinatorial auction theory
+- Market-based multi-agent coordination
