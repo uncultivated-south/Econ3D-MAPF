@@ -1,0 +1,637 @@
+=== KEY FINDINGS ===
+• Hybrid achieved the highest overall success rate: 0.969
+• Auction-only was the fastest algorithm with average time: 0.068s
+• CBS-only achieved Gini coefficient of 0.406
+• Tested scalability across 6 different agent counts: [4, 8, 12, 16, 20, 24]
+• Auction-only generated average revenue of 69.69 per scenario
+• Hybrid generated average revenue of 90.92 per scenario
+
+
+Testing agent counts: [4, 8, 12, 16, 20, 24]
+Scenarios per count: 20
+Total scenarios: 120
+
+2025-09-13 20:45:26,156 - INFO - Starting agent count experiment
+2025-09-13 20:45:26,156 - INFO - Testing agent counts: [4, 8, 12, 16, 20, 24]
+2025-09-13 20:45:26,156 - INFO - Scenarios per count: 20
+2025-09-13 20:45:26,156 - INFO -
+=== Testing 4 regular agents ===
+2025-09-13 20:45:26,162 - INFO - Running scenario agents_4_seed_0
+2025-09-13 20:45:26,213 - INFO -   CBS-only: 4/4 agents successful in 0.01s
+2025-09-13 20:45:26,255 - INFO -   Auction-only: 3/4 agents successful in 0.02s
+2025-09-13 20:45:26,276 - INFO -   Hybrid: 4/4 agents successful in 0.01s
+
+2025-09-13 20:45:26,339 - INFO - Running scenario agents_4_seed_1
+2025-09-13 20:45:26,401 - INFO -   CBS-only: 4/4 agents successful in 0.01s
+2025-09-13 20:45:26,428 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:26,459 - INFO -   Hybrid: 4/4 agents successful in 0.01s
+2025-09-13 20:45:26,459 - INFO - Running scenario agents_4_seed_2
+2025-09-13 20:45:26,467 - INFO -   CBS-only: 4/4 agents successful in 0.00s
+2025-09-13 20:45:26,472 - INFO -   Auction-only: 3/4 agents successful in 0.00s
+2025-09-13 20:45:26,476 - INFO -   Hybrid: 4/4 agents successful in 0.00s
+2025-09-13 20:45:26,477 - INFO - Running scenario agents_4_seed_3
+2025-09-13 20:45:26,525 - INFO -   CBS-only: 4/4 agents successful in 0.02s
+2025-09-13 20:45:26,533 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:26,558 - INFO -   Hybrid: 4/4 agents successful in 0.02s
+2025-09-13 20:45:26,558 - INFO - Running scenario agents_4_seed_4
+2025-09-13 20:45:26,593 - INFO -   CBS-only: 4/4 agents successful in 0.01s
+2025-09-13 20:45:26,611 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:26,629 - INFO -   Hybrid: 4/4 agents successful in 0.01s
+2025-09-13 20:45:26,629 - INFO - Running scenario agents_4_seed_5
+2025-09-13 20:45:26,655 - INFO -   CBS-only: 4/4 agents successful in 0.00s
+2025-09-13 20:45:26,672 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:26,684 - INFO -   Hybrid: 4/4 agents successful in 0.00s
+2025-09-13 20:45:26,685 - INFO - Running scenario agents_4_seed_6
+2025-09-13 20:45:26,703 - INFO -   CBS-only: 4/4 agents successful in 0.01s
+2025-09-13 20:45:26,710 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:26,720 - INFO -   Hybrid: 4/4 agents successful in 0.01s
+2025-09-13 20:45:26,720 - INFO - Running scenario agents_4_seed_7
+2025-09-13 20:45:26,765 - INFO -   CBS-only: 4/4 agents successful in 0.01s
+2025-09-13 20:45:26,784 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:26,807 - INFO -   Hybrid: 4/4 agents successful in 0.01s
+2025-09-13 20:45:26,808 - INFO - Running scenario agents_4_seed_8
+2025-09-13 20:45:26,840 - INFO -   CBS-only: 4/4 agents successful in 0.00s
+2025-09-13 20:45:26,858 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:26,874 - INFO -   Hybrid: 4/4 agents successful in 0.00s
+2025-09-13 20:45:26,875 - INFO - Running scenario agents_4_seed_9
+2025-09-13 20:45:26,893 - INFO -   CBS-only: 4/4 agents successful in 0.01s
+2025-09-13 20:45:26,900 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:26,909 - INFO -   Hybrid: 4/4 agents successful in 0.01s
+2025-09-13 20:45:26,909 - INFO - Running scenario agents_4_seed_10
+2025-09-13 20:45:26,920 - INFO -   CBS-only: 4/4 agents successful in 0.00s
+2025-09-13 20:45:26,925 - INFO -   Auction-only: 3/4 agents successful in 0.00s
+2025-09-13 20:45:26,930 - INFO -   Hybrid: 4/4 agents successful in 0.00s
+2025-09-13 20:45:26,931 - INFO - Running scenario agents_4_seed_11
+2025-09-13 20:45:27,038 - INFO -   CBS-only: 4/4 agents successful in 0.05s
+2025-09-13 20:45:27,060 - INFO -   Auction-only: 3/4 agents successful in 0.02s
+2025-09-13 20:45:27,113 - INFO -   Hybrid: 4/4 agents successful in 0.05s
+2025-09-13 20:45:27,114 - INFO - Running scenario agents_4_seed_12
+2025-09-13 20:45:27,133 - INFO -   CBS-only: 4/4 agents successful in 0.01s
+2025-09-13 20:45:27,141 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:27,151 - INFO -   Hybrid: 4/4 agents successful in 0.01s
+2025-09-13 20:45:27,151 - INFO - Running scenario agents_4_seed_13
+2025-09-13 20:45:27,192 - INFO -   CBS-only: 4/4 agents successful in 0.01s
+2025-09-13 20:45:27,214 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:27,234 - INFO -   Hybrid: 4/4 agents successful in 0.01s
+2025-09-13 20:45:27,235 - INFO - Running scenario agents_4_seed_14
+2025-09-13 20:45:27,283 - INFO -   CBS-only: 4/4 agents successful in 0.01s
+2025-09-13 20:45:27,305 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:27,328 - INFO -   Hybrid: 4/4 agents successful in 0.01s
+2025-09-13 20:45:27,329 - INFO - Running scenario agents_4_seed_15
+2025-09-13 20:45:27,358 - INFO -   CBS-only: 4/4 agents successful in 0.00s
+2025-09-13 20:45:27,376 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:27,391 - INFO -   Hybrid: 4/4 agents successful in 0.00s
+2025-09-13 20:45:27,392 - INFO - Running scenario agents_4_seed_16
+2025-09-13 20:45:27,407 - INFO -   CBS-only: 4/4 agents successful in 0.01s
+2025-09-13 20:45:27,414 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:27,422 - INFO -   Hybrid: 4/4 agents successful in 0.01s
+2025-09-13 20:45:27,422 - INFO - Running scenario agents_4_seed_17
+2025-09-13 20:45:27,450 - INFO -   CBS-only: 4/4 agents successful in 0.01s
+2025-09-13 20:45:27,457 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:27,470 - INFO -   Hybrid: 4/4 agents successful in 0.01s
+2025-09-13 20:45:27,471 - INFO - Running scenario agents_4_seed_18
+2025-09-13 20:45:27,506 - INFO -   CBS-only: 4/4 agents successful in 0.02s
+2025-09-13 20:45:27,516 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:27,534 - INFO -   Hybrid: 4/4 agents successful in 0.02s
+2025-09-13 20:45:27,535 - INFO - Running scenario agents_4_seed_19
+2025-09-13 20:45:27,557 - INFO -   CBS-only: 4/4 agents successful in 0.01s
+2025-09-13 20:45:27,571 - INFO -   Auction-only: 3/4 agents successful in 0.01s
+2025-09-13 20:45:27,582 - INFO -   Hybrid: 4/4 agents successful in 0.01s
+2025-09-13 20:45:27,583 - INFO -
+Summary for 4 agents (20 scenarios):
+2025-09-13 20:45:27,583 - INFO -   CBS-only:
+2025-09-13 20:45:27,596 - INFO -     Success rate: 1.000 ± 0.000
+2025-09-13 20:45:27,597 - INFO -     Computation time: 0.011s ± 0.010s
+2025-09-13 20:45:27,597 - INFO -     Gini coefficient: 0.538 ± 0.100
+2025-09-13 20:45:27,597 - INFO -     Budget correlation: 0.000 ± 0.000
+2025-09-13 20:45:27,597 - INFO -   Auction-only:
+2025-09-13 20:45:27,597 - INFO -     Success rate: 0.750 ± 0.000
+2025-09-13 20:45:27,597 - INFO -     Computation time: 0.009s ± 0.005s
+2025-09-13 20:45:27,598 - INFO -     Revenue: 23.40 ± 6.90
+2025-09-13 20:45:27,598 - INFO -     Gini coefficient: 0.392 ± 0.136
+2025-09-13 20:45:27,598 - INFO -     Budget correlation: 0.567 ± 0.154
+2025-09-13 20:45:27,598 - INFO -   Hybrid:
+2025-09-13 20:45:27,598 - INFO -     Success rate: 1.000 ± 0.000
+2025-09-13 20:45:27,598 - INFO -     Computation time: 0.011s ± 0.010s
+2025-09-13 20:45:27,598 - INFO -     Gini coefficient: 0.538 ± 0.100
+2025-09-13 20:45:27,598 - INFO -     Budget correlation: 0.000 ± 0.000
+2025-09-13 20:45:27,598 - INFO -
+=== Testing 8 regular agents ===
+2025-09-13 20:45:27,607 - INFO - Running scenario agents_8_seed_0
+2025-09-13 20:45:27,673 - INFO -   CBS-only: 8/8 agents successful in 0.02s
+2025-09-13 20:45:27,720 - INFO -   Auction-only: 7/8 agents successful in 0.03s
+2025-09-13 20:45:27,752 - INFO -   Hybrid: 8/8 agents successful in 0.02s
+2025-09-13 20:45:27,753 - INFO - Running scenario agents_8_seed_1
+2025-09-13 20:48:09,069 - INFO -   CBS-only: 0/8 agents successful in 150.14s
+2025-09-13 20:48:09,128 - INFO -   Auction-only: 7/8 agents successful in 0.03s
+2025-09-13 20:50:39,264 - INFO -   Hybrid: 7/8 agents successful in 150.10s
+2025-09-13 20:50:39,265 - INFO - Running scenario agents_8_seed_2
+2025-09-13 20:50:39,283 - INFO -   CBS-only: 8/8 agents successful in 0.01s
+2025-09-13 20:50:39,297 - INFO -   Auction-only: 7/8 agents successful in 0.01s
+2025-09-13 20:50:39,308 - INFO -   Hybrid: 8/8 agents successful in 0.01s
+2025-09-13 20:50:39,309 - INFO - Running scenario agents_8_seed_3
+2025-09-13 20:53:32,513 - INFO -   CBS-only: 0/8 agents successful in 150.12s
+2025-09-13 20:53:32,540 - INFO -   Auction-only: 7/8 agents successful in 0.02s
+2025-09-13 20:56:02,609 - INFO -   Hybrid: 7/8 agents successful in 150.07s
+2025-09-13 20:56:02,611 - INFO - Running scenario agents_8_seed_4
+2025-09-13 20:56:02,676 - INFO -   CBS-only: 8/8 agents successful in 0.03s
+2025-09-13 20:56:02,712 - INFO -   Auction-only: 7/8 agents successful in 0.03s
+2025-09-13 20:56:02,742 - INFO -   Hybrid: 8/8 agents successful in 0.03s
+2025-09-13 20:56:02,743 - INFO - Running scenario agents_8_seed_5
+2025-09-13 20:56:02,825 - INFO -   CBS-only: 8/8 agents successful in 0.03s
+2025-09-13 20:56:02,871 - INFO -   Auction-only: 7/8 agents successful in 0.03s
+2025-09-13 20:56:02,913 - INFO -   Hybrid: 8/8 agents successful in 0.03s
+2025-09-13 20:56:02,914 - INFO - Running scenario agents_8_seed_6
+2025-09-13 20:56:02,965 - INFO -   CBS-only: 8/8 agents successful in 0.02s
+2025-09-13 20:56:02,980 - INFO -   Auction-only: 7/8 agents successful in 0.01s
+2025-09-13 20:56:03,006 - INFO -   Hybrid: 8/8 agents successful in 0.02s
+2025-09-13 20:56:03,007 - INFO - Running scenario agents_8_seed_7
+2025-09-13 20:56:03,089 - INFO -   CBS-only: 8/8 agents successful in 0.03s
+2025-09-13 20:56:03,118 - INFO -   Auction-only: 7/8 agents successful in 0.02s
+2025-09-13 20:56:03,159 - INFO -   Hybrid: 8/8 agents successful in 0.03s
+2025-09-13 20:56:03,160 - INFO - Running scenario agents_8_seed_8
+2025-09-13 20:56:03,213 - INFO -   CBS-only: 8/8 agents successful in 0.01s
+2025-09-13 20:56:03,245 - INFO -   Auction-only: 7/8 agents successful in 0.01s
+2025-09-13 20:56:03,273 - INFO -   Hybrid: 8/8 agents successful in 0.01s
+2025-09-13 20:56:03,274 - INFO - Running scenario agents_8_seed_9
+2025-09-13 20:56:03,351 - INFO -   CBS-only: 8/8 agents successful in 0.03s
+2025-09-13 20:56:03,388 - INFO -   Auction-only: 7/8 agents successful in 0.03s
+2025-09-13 20:56:03,424 - INFO -   Hybrid: 8/8 agents successful in 0.03s
+2025-09-13 20:56:03,425 - INFO - Running scenario agents_8_seed_10
+2025-09-13 20:56:03,494 - INFO -   CBS-only: 8/8 agents successful in 0.03s
+2025-09-13 20:56:03,520 - INFO -   Auction-only: 7/8 agents successful in 0.02s
+2025-09-13 20:56:03,554 - INFO -   Hybrid: 8/8 agents successful in 0.03s
+2025-09-13 20:56:03,555 - INFO - Running scenario agents_8_seed_11
+2025-09-13 20:56:03,789 - INFO -   CBS-only: 8/8 agents successful in 0.11s
+2025-09-13 20:56:03,879 - INFO -   Auction-only: 7/8 agents successful in 0.08s
+2025-09-13 20:56:03,998 - INFO -   Hybrid: 8/8 agents successful in 0.11s
+2025-09-13 20:56:03,999 - INFO - Running scenario agents_8_seed_12
+2025-09-13 20:56:04,037 - INFO -   CBS-only: 8/8 agents successful in 0.02s
+2025-09-13 20:56:04,053 - INFO -   Auction-only: 7/8 agents successful in 0.01s
+2025-09-13 20:56:04,071 - INFO -   Hybrid: 8/8 agents successful in 0.02s
+2025-09-13 20:56:04,072 - INFO - Running scenario agents_8_seed_13
+2025-09-13 20:56:04,163 - INFO -   CBS-only: 8/8 agents successful in 0.03s
+2025-09-13 20:56:04,195 - INFO -   Auction-only: 7/8 agents successful in 0.02s
+2025-09-13 20:56:04,241 - INFO -   Hybrid: 8/8 agents successful in 0.03s
+2025-09-13 20:56:04,242 - INFO - Running scenario agents_8_seed_14
+2025-09-13 20:56:04,337 - INFO -   CBS-only: 8/8 agents successful in 0.03s
+2025-09-13 20:56:04,377 - INFO -   Auction-only: 7/8 agents successful in 0.02s
+2025-09-13 20:56:04,422 - INFO -   Hybrid: 8/8 agents successful in 0.03s
+2025-09-13 20:56:04,423 - INFO - Running scenario agents_8_seed_15
+2025-09-13 20:56:04,474 - INFO -   CBS-only: 8/8 agents successful in 0.01s
+2025-09-13 20:56:04,506 - INFO -   Auction-only: 7/8 agents successful in 0.01s
+2025-09-13 20:56:04,531 - INFO -   Hybrid: 8/8 agents successful in 0.01s
+2025-09-13 20:56:04,532 - INFO - Running scenario agents_8_seed_16
+2025-09-13 20:56:04,573 - INFO -   CBS-only: 8/8 agents successful in 0.02s
+2025-09-13 20:56:04,597 - INFO -   Auction-only: 7/8 agents successful in 0.02s
+2025-09-13 20:56:04,618 - INFO -   Hybrid: 8/8 agents successful in 0.02s
+2025-09-13 20:56:04,618 - INFO - Running scenario agents_8_seed_17
+2025-09-13 20:56:04,711 - INFO -   CBS-only: 8/8 agents successful in 0.04s
+2025-09-13 20:56:04,730 - INFO -   Auction-only: 7/8 agents successful in 0.02s
+2025-09-13 20:56:04,784 - INFO -   Hybrid: 8/8 agents successful in 0.05s
+2025-09-13 20:56:04,785 - INFO - Running scenario agents_8_seed_18
+2025-09-13 20:56:04,854 - INFO -   CBS-only: 8/8 agents successful in 0.03s
+2025-09-13 20:56:04,879 - INFO -   Auction-only: 7/8 agents successful in 0.02s
+2025-09-13 20:56:04,914 - INFO -   Hybrid: 8/8 agents successful in 0.03s
+2025-09-13 20:56:04,915 - INFO - Running scenario agents_8_seed_19
+2025-09-13 20:56:04,960 - INFO -   CBS-only: 8/8 agents successful in 0.01s
+2025-09-13 20:56:04,985 - INFO -   Auction-only: 7/8 agents successful in 0.02s
+2025-09-13 20:56:05,008 - INFO -   Hybrid: 8/8 agents successful in 0.01s
+2025-09-13 20:56:05,008 - INFO -
+Summary for 8 agents (20 scenarios):
+2025-09-13 20:56:05,008 - INFO -   CBS-only:
+2025-09-13 20:56:05,009 - INFO -     Success rate: 0.900 ± 0.300
+2025-09-13 20:56:05,009 - INFO -     Computation time: 15.038s ± 45.029s
+2025-09-13 20:56:05,009 - INFO -     Gini coefficient: 0.549 ± 0.207
+2025-09-13 20:56:05,009 - INFO -     Budget correlation: 0.000 ± 0.000
+2025-09-13 20:56:05,009 - INFO -   Auction-only:
+2025-09-13 20:56:05,009 - INFO -     Success rate: 0.875 ± 0.000
+2025-09-13 20:56:05,009 - INFO -     Computation time: 0.023s ± 0.015s
+2025-09-13 20:56:05,009 - INFO -     Revenue: 44.80 ± 12.53
+2025-09-13 20:56:05,010 - INFO -     Gini coefficient: 0.571 ± 0.123
+2025-09-13 20:56:05,010 - INFO -     Budget correlation: 0.284 ± 0.093
+2025-09-13 20:56:05,010 - INFO -   Hybrid:
+2025-09-13 20:56:05,010 - INFO -     Success rate: 0.988 ± 0.038
+2025-09-13 20:56:05,010 - INFO -     Computation time: 15.034s ± 45.016s
+2025-09-13 20:56:05,010 - INFO -     Revenue: 4.64 ± 15.27
+2025-09-13 20:56:05,010 - INFO -     Gini coefficient: 0.616 ± 0.105
+2025-09-13 20:56:05,010 - INFO -     Budget correlation: 0.021 ± 0.065
+2025-09-13 20:56:05,010 - INFO -
+=== Testing 12 regular agents ===
+2025-09-13 20:56:05,028 - INFO - Running scenario agents_12_seed_0
+2025-09-13 20:56:05,212 - INFO -   CBS-only: 0/12 agents successful in 0.11s
+2025-09-13 20:56:05,298 - INFO -   Auction-only: 10/12 agents successful in 0.06s
+2025-09-13 20:56:05,500 - INFO -   Hybrid: 10/12 agents successful in 0.17s
+2025-09-13 20:56:05,501 - INFO - Running scenario agents_12_seed_1
+2025-09-13 20:58:47,156 - INFO -   CBS-only: 0/12 agents successful in 150.08s
+2025-09-13 20:58:47,233 - INFO -   Auction-only: 11/12 agents successful in 0.03s
+2025-09-13 21:01:17,445 - INFO -   Hybrid: 11/12 agents successful in 150.18s
+2025-09-13 21:01:17,446 - INFO - Running scenario agents_12_seed_2
+2025-09-13 21:01:17,474 - INFO -   CBS-only: 12/12 agents successful in 0.01s
+2025-09-13 21:01:17,497 - INFO -   Auction-only: 11/12 agents successful in 0.02s
+2025-09-13 21:01:17,513 - INFO -   Hybrid: 12/12 agents successful in 0.01s
+2025-09-13 21:01:17,514 - INFO - Running scenario agents_12_seed_3
+2025-09-13 21:04:11,676 - INFO -   CBS-only: 0/12 agents successful in 150.08s
+2025-09-13 21:04:11,718 - INFO -   Auction-only: 11/12 agents successful in 0.04s
+2025-09-13 21:06:41,885 - INFO -   Hybrid: 11/12 agents successful in 150.16s
+2025-09-13 21:06:41,887 - INFO - Running scenario agents_12_seed_4
+2025-09-13 21:06:42,001 - INFO -   CBS-only: 12/12 agents successful in 0.07s
+2025-09-13 21:06:42,056 - INFO -   Auction-only: 11/12 agents successful in 0.05s
+2025-09-13 21:06:42,133 - INFO -   Hybrid: 12/12 agents successful in 0.07s
+2025-09-13 21:06:42,134 - INFO - Running scenario agents_12_seed_5
+2025-09-13 21:06:42,224 - INFO -   CBS-only: 12/12 agents successful in 0.03s
+2025-09-13 21:06:42,278 - INFO -   Auction-only: 11/12 agents successful in 0.04s
+2025-09-13 21:06:42,324 - INFO -   Hybrid: 12/12 agents successful in 0.03s
+2025-09-13 21:06:42,325 - INFO - Running scenario agents_12_seed_6
+2025-09-13 21:06:42,397 - INFO -   CBS-only: 12/12 agents successful in 0.04s
+2025-09-13 21:06:42,421 - INFO -   Auction-only: 11/12 agents successful in 0.02s
+2025-09-13 21:06:42,468 - INFO -   Hybrid: 12/12 agents successful in 0.04s
+2025-09-13 21:06:42,469 - INFO - Running scenario agents_12_seed_7
+2025-09-13 21:06:42,593 - INFO -   CBS-only: 12/12 agents successful in 0.07s
+2025-09-13 21:06:42,627 - INFO -   Auction-only: 11/12 agents successful in 0.02s
+2025-09-13 21:06:42,707 - INFO -   Hybrid: 12/12 agents successful in 0.07s
+2025-09-13 21:06:42,708 - INFO - Running scenario agents_12_seed_8
+2025-09-13 21:06:42,790 - INFO -   CBS-only: 12/12 agents successful in 0.03s
+2025-09-13 21:06:42,845 - INFO -   Auction-only: 11/12 agents successful in 0.03s
+2025-09-13 21:06:42,896 - INFO -   Hybrid: 12/12 agents successful in 0.03s
+2025-09-13 21:06:42,897 - INFO - Running scenario agents_12_seed_9
+2025-09-13 21:07:24,145 - INFO -   CBS-only: 0/12 agents successful in 41.21s
+2025-09-13 21:07:24,199 - INFO -   Auction-only: 10/12 agents successful in 0.05s
+2025-09-13 21:08:05,925 - INFO -   Hybrid: 10/12 agents successful in 41.72s
+2025-09-13 21:08:05,926 - INFO - Running scenario agents_12_seed_10
+2025-09-13 21:08:06,016 - INFO -   CBS-only: 12/12 agents successful in 0.05s
+2025-09-13 21:08:06,055 - INFO -   Auction-only: 11/12 agents successful in 0.03s
+2025-09-13 21:08:06,104 - INFO -   Hybrid: 12/12 agents successful in 0.04s
+2025-09-13 21:08:06,105 - INFO - Running scenario agents_12_seed_11
+2025-09-13 21:08:06,790 - INFO -   CBS-only: 12/12 agents successful in 0.55s
+2025-09-13 21:08:06,919 - INFO -   Auction-only: 10/12 agents successful in 0.12s
+2025-09-13 21:08:07,461 - INFO -   Hybrid: 12/12 agents successful in 0.54s
+2025-09-13 21:08:07,462 - INFO - Running scenario agents_12_seed_12
+2025-09-13 21:08:07,506 - INFO -   CBS-only: 12/12 agents successful in 0.02s
+2025-09-13 21:08:07,532 - INFO -   Auction-only: 11/12 agents successful in 0.02s
+2025-09-13 21:08:07,555 - INFO -   Hybrid: 12/12 agents successful in 0.02s
+2025-09-13 21:08:07,555 - INFO - Running scenario agents_12_seed_13
+2025-09-13 21:08:07,669 - INFO -   CBS-only: 12/12 agents successful in 0.05s
+2025-09-13 21:08:07,713 - INFO -   Auction-only: 11/12 agents successful in 0.03s
+2025-09-13 21:08:07,774 - INFO -   Hybrid: 12/12 agents successful in 0.05s
+2025-09-13 21:08:07,775 - INFO - Running scenario agents_12_seed_14
+2025-09-13 21:08:07,901 - INFO -   CBS-only: 12/12 agents successful in 0.06s
+2025-09-13 21:08:07,984 - INFO -   Auction-only: 11/12 agents successful in 0.07s
+2025-09-13 21:08:08,065 - INFO -   Hybrid: 12/12 agents successful in 0.06s
+2025-09-13 21:08:08,066 - INFO - Running scenario agents_12_seed_15
+2025-09-13 21:08:08,124 - INFO -   CBS-only: 12/12 agents successful in 0.01s
+2025-09-13 21:08:08,165 - INFO -   Auction-only: 11/12 agents successful in 0.02s
+2025-09-13 21:08:08,197 - INFO -   Hybrid: 12/12 agents successful in 0.01s
+2025-09-13 21:08:08,198 - INFO - Running scenario agents_12_seed_16
+2025-09-13 21:08:08,351 - INFO -   CBS-only: 12/12 agents successful in 0.13s
+2025-09-13 21:08:08,398 - INFO -   Auction-only: 11/12 agents successful in 0.04s
+2025-09-13 21:08:08,526 - INFO -   Hybrid: 12/12 agents successful in 0.12s
+2025-09-13 21:08:08,527 - INFO - Running scenario agents_12_seed_17
+2025-09-13 21:08:08,638 - INFO -   CBS-only: 12/12 agents successful in 0.05s
+2025-09-13 21:08:08,662 - INFO -   Auction-only: 11/12 agents successful in 0.02s
+2025-09-13 21:08:08,714 - INFO -   Hybrid: 12/12 agents successful in 0.05s
+2025-09-13 21:08:08,715 - INFO - Running scenario agents_12_seed_18
+2025-09-13 21:08:10,399 - INFO -   CBS-only: 0/12 agents successful in 1.64s
+2025-09-13 21:08:10,460 - INFO -   Auction-only: 10/12 agents successful in 0.06s
+2025-09-13 21:08:12,166 - INFO -   Hybrid: 10/12 agents successful in 1.70s
+2025-09-13 21:08:12,167 - INFO - Running scenario agents_12_seed_19
+2025-09-13 21:08:12,227 - INFO -   CBS-only: 12/12 agents successful in 0.03s
+2025-09-13 21:08:12,262 - INFO -   Auction-only: 11/12 agents successful in 0.03s
+2025-09-13 21:08:12,299 - INFO -   Hybrid: 12/12 agents successful in 0.03s
+2025-09-13 21:08:12,299 - INFO -
+Summary for 12 agents (20 scenarios):
+2025-09-13 21:08:12,300 - INFO -   CBS-only:
+2025-09-13 21:08:12,300 - INFO -     Success rate: 0.750 ± 0.433
+2025-09-13 21:08:12,300 - INFO -     Computation time: 17.216s ± 45.178s
+2025-09-13 21:08:12,300 - INFO -     Gini coefficient: 0.478 ± 0.286
+2025-09-13 21:08:12,301 - INFO -     Budget correlation: 0.000 ± 0.000
+2025-09-13 21:08:12,301 - INFO -   Auction-only:
+2025-09-13 21:08:12,301 - INFO -     Success rate: 0.900 ± 0.033
+2025-09-13 21:08:12,301 - INFO -     Computation time: 0.040s ± 0.023s
+2025-09-13 21:08:12,301 - INFO -     Revenue: 66.13 ± 15.41
+2025-09-13 21:08:12,301 - INFO -     Gini coefficient: 0.611 ± 0.097
+2025-09-13 21:08:12,302 - INFO -     Budget correlation: 0.209 ± 0.063
+2025-09-13 21:08:12,302 - INFO -   Hybrid:
+2025-09-13 21:08:12,302 - INFO -     Success rate: 0.967 ± 0.061
+2025-09-13 21:08:12,302 - INFO -     Computation time: 17.256s ± 45.217s
+2025-09-13 21:08:12,302 - INFO -     Revenue: 17.02 ± 30.38
+2025-09-13 21:08:12,302 - INFO -     Gini coefficient: 0.632 ± 0.091
+2025-09-13 21:08:12,302 - INFO -     Budget correlation: 0.048 ± 0.091
+2025-09-13 21:08:12,302 - INFO -
+=== Testing 16 regular agents ===
+2025-09-13 21:08:12,324 - INFO - Running scenario agents_16_seed_0
+2025-09-13 21:10:05,004 - INFO -   CBS-only: 0/16 agents successful in 112.60s
+2025-09-13 21:10:05,104 - INFO -   Auction-only: 14/16 agents successful in 0.07s
+2025-09-13 21:11:57,415 - INFO -   Hybrid: 14/16 agents successful in 112.29s
+2025-09-13 21:11:57,416 - INFO - Running scenario agents_16_seed_1
+2025-09-13 21:14:39,569 - INFO -   CBS-only: 0/16 agents successful in 150.08s
+2025-09-13 21:14:39,655 - INFO -   Auction-only: 15/16 agents successful in 0.04s
+2025-09-13 21:17:09,855 - INFO -   Hybrid: 15/16 agents successful in 150.17s
+2025-09-13 21:17:09,857 - INFO - Running scenario agents_16_seed_2
+2025-09-13 21:17:09,897 - INFO -   CBS-only: 16/16 agents successful in 0.03s
+2025-09-13 21:17:09,930 - INFO -   Auction-only: 15/16 agents successful in 0.03s
+2025-09-13 21:17:09,958 - INFO -   Hybrid: 16/16 agents successful in 0.02s
+2025-09-13 21:17:09,959 - INFO - Running scenario agents_16_seed_3
+2025-09-13 21:20:03,808 - INFO -   CBS-only: 0/16 agents successful in 150.03s
+2025-09-13 21:20:03,875 - INFO -   Auction-only: 14/16 agents successful in 0.06s
+2025-09-13 21:22:34,054 - INFO -   Hybrid: 14/16 agents successful in 150.17s
+2025-09-13 21:22:34,056 - INFO - Running scenario agents_16_seed_4
+2025-09-13 21:22:34,270 - INFO -   CBS-only: 16/16 agents successful in 0.17s
+2025-09-13 21:22:34,393 - INFO -   Auction-only: 15/16 agents successful in 0.12s
+2025-09-13 21:22:34,598 - INFO -   Hybrid: 16/16 agents successful in 0.20s
+2025-09-13 21:22:34,599 - INFO - Running scenario agents_16_seed_5
+2025-09-13 21:22:34,798 - INFO -   CBS-only: 16/16 agents successful in 0.13s
+2025-09-13 21:22:34,882 - INFO -   Auction-only: 15/16 agents successful in 0.07s
+2025-09-13 21:22:35,003 - INFO -   Hybrid: 16/16 agents successful in 0.10s
+2025-09-13 21:22:35,004 - INFO - Running scenario agents_16_seed_6
+2025-09-13 21:25:05,121 - INFO -   CBS-only: 0/16 agents successful in 150.09s
+2025-09-13 21:25:05,155 - INFO -   Auction-only: 15/16 agents successful in 0.03s
+2025-09-13 21:27:35,319 - INFO -   Hybrid: 15/16 agents successful in 150.16s
+2025-09-13 21:27:35,321 - INFO - Running scenario agents_16_seed_7
+2025-09-13 21:30:05,431 - INFO -   CBS-only: 0/16 agents successful in 150.05s
+2025-09-13 21:30:05,491 - INFO -   Auction-only: 15/16 agents successful in 0.04s
+2025-09-13 21:32:35,696 - INFO -   Hybrid: 15/16 agents successful in 150.19s
+2025-09-13 21:32:35,698 - INFO - Running scenario agents_16_seed_8
+2025-09-13 21:32:35,930 - INFO -   CBS-only: 16/16 agents successful in 0.16s
+2025-09-13 21:32:36,043 - INFO -   Auction-only: 15/16 agents successful in 0.08s
+2025-09-13 21:32:36,210 - INFO -   Hybrid: 16/16 agents successful in 0.14s
+2025-09-13 21:32:36,211 - INFO - Running scenario agents_16_seed_9
+2025-09-13 21:35:55,945 - INFO -   CBS-only: 0/16 agents successful in 199.67s
+2025-09-13 21:35:56,035 - INFO -   Auction-only: 13/16 agents successful in 0.09s
+2025-09-13 21:39:14,732 - INFO -   Hybrid: 13/16 agents successful in 198.69s
+2025-09-13 21:39:14,733 - INFO - Running scenario agents_16_seed_10
+2025-09-13 21:39:14,840 - INFO -   CBS-only: 16/16 agents successful in 0.06s
+2025-09-13 21:39:14,909 - INFO -   Auction-only: 15/16 agents successful in 0.06s
+2025-09-13 21:39:14,979 - INFO -   Hybrid: 16/16 agents successful in 0.06s
+2025-09-13 21:39:14,980 - INFO - Running scenario agents_16_seed_11
+2025-09-13 21:39:16,117 - INFO -   CBS-only: 16/16 agents successful in 1.01s
+2025-09-13 21:39:16,256 - INFO -   Auction-only: 15/16 agents successful in 0.13s
+2025-09-13 21:39:17,340 - INFO -   Hybrid: 16/16 agents successful in 1.08s
+2025-09-13 21:39:17,341 - INFO - Running scenario agents_16_seed_12
+2025-09-13 21:39:17,407 - INFO -   CBS-only: 16/16 agents successful in 0.04s
+2025-09-13 21:39:17,455 - INFO -   Auction-only: 14/16 agents successful in 0.04s
+2025-09-13 21:39:17,502 - INFO -   Hybrid: 16/16 agents successful in 0.04s
+2025-09-13 21:39:17,503 - INFO - Running scenario agents_16_seed_13
+2025-09-13 21:39:17,639 - INFO -   CBS-only: 16/16 agents successful in 0.06s
+2025-09-13 21:39:17,703 - INFO -   Auction-only: 15/16 agents successful in 0.05s
+2025-09-13 21:39:17,781 - INFO -   Hybrid: 16/16 agents successful in 0.06s
+2025-09-13 21:39:17,784 - INFO - Running scenario agents_16_seed_14
+2025-09-13 21:39:17,957 - INFO -   CBS-only: 16/16 agents successful in 0.11s
+2025-09-13 21:39:18,058 - INFO -   Auction-only: 14/16 agents successful in 0.08s
+2025-09-13 21:39:18,183 - INFO -   Hybrid: 16/16 agents successful in 0.11s
+2025-09-13 21:39:18,184 - INFO - Running scenario agents_16_seed_15
+2025-09-13 21:40:02,255 - INFO -   CBS-only: 0/16 agents successful in 44.02s
+2025-09-13 21:40:02,322 - INFO -   Auction-only: 15/16 agents successful in 0.05s
+2025-09-13 21:40:45,810 - INFO -   Hybrid: 15/16 agents successful in 43.47s
+2025-09-13 21:40:45,811 - INFO - Running scenario agents_16_seed_16
+2025-09-13 21:40:46,022 - INFO -   CBS-only: 16/16 agents successful in 0.19s
+2025-09-13 21:40:46,102 - INFO -   Auction-only: 15/16 agents successful in 0.08s
+2025-09-13 21:40:46,288 - INFO -   Hybrid: 16/16 agents successful in 0.18s
+2025-09-13 21:40:46,290 - INFO - Running scenario agents_16_seed_17
+2025-09-13 21:40:46,437 - INFO -   CBS-only: 16/16 agents successful in 0.09s
+2025-09-13 21:40:46,480 - INFO -   Auction-only: 15/16 agents successful in 0.04s
+2025-09-13 21:40:46,572 - INFO -   Hybrid: 16/16 agents successful in 0.09s
+2025-09-13 21:40:46,574 - INFO - Running scenario agents_16_seed_18
+2025-09-13 21:42:46,362 - INFO -   CBS-only: 0/16 agents successful in 119.75s
+2025-09-13 21:42:46,432 - INFO -   Auction-only: 14/16 agents successful in 0.07s
+2025-09-13 21:44:55,485 - INFO -   Hybrid: 14/16 agents successful in 129.05s
+2025-09-13 21:44:55,486 - INFO - Running scenario agents_16_seed_19
+2025-09-13 21:44:55,588 - INFO -   CBS-only: 16/16 agents successful in 0.07s
+2025-09-13 21:44:55,643 - INFO -   Auction-only: 15/16 agents successful in 0.05s
+2025-09-13 21:44:55,706 - INFO -   Hybrid: 16/16 agents successful in 0.05s
+2025-09-13 21:44:55,707 - INFO -
+Summary for 16 agents (20 scenarios):
+2025-09-13 21:44:55,707 - INFO -   CBS-only:
+2025-09-13 21:44:55,707 - INFO -     Success rate: 0.600 ± 0.490
+2025-09-13 21:44:55,707 - INFO -     Computation time: 53.921s ± 70.976s
+2025-09-13 21:44:55,708 - INFO -     Gini coefficient: 0.395 ± 0.327
+2025-09-13 21:44:55,708 - INFO -     Budget correlation: 0.000 ± 0.000
+2025-09-13 21:44:55,708 - INFO -   Auction-only:
+2025-09-13 21:44:55,708 - INFO -     Success rate: 0.916 ± 0.036
+2025-09-13 21:44:55,708 - INFO -     Computation time: 0.064s ± 0.026s
+2025-09-13 21:44:55,708 - INFO -     Revenue: 79.86 ± 21.62
+2025-09-13 21:44:55,709 - INFO -     Gini coefficient: 0.652 ± 0.083
+2025-09-13 21:44:55,709 - INFO -     Budget correlation: 0.166 ± 0.043
+2025-09-13 21:44:55,709 - INFO -   Hybrid:
+2025-09-13 21:44:55,709 - INFO -     Success rate: 0.959 ± 0.057
+2025-09-13 21:44:55,709 - INFO -     Computation time: 54.316s ± 71.356s
+2025-09-13 21:44:55,709 - INFO -     Revenue: 30.89 ± 40.84
+2025-09-13 21:44:55,709 - INFO -     Gini coefficient: 0.664 ± 0.080
+2025-09-13 21:44:55,709 - INFO -     Budget correlation: 0.067 ± 0.089
+2025-09-13 21:44:55,709 - INFO -
+=== Testing 20 regular agents ===
+2025-09-13 21:44:55,735 - INFO - Running scenario agents_20_seed_0
+2025-09-13 21:46:00,454 - INFO -   CBS-only: 0/20 agents successful in 64.64s
+2025-09-13 21:46:00,617 - INFO -   Auction-only: 18/20 agents successful in 0.14s
+2025-09-13 21:47:02,967 - INFO -   Hybrid: 18/20 agents successful in 62.33s
+2025-09-13 21:47:02,968 - INFO - Running scenario agents_20_seed_1
+2025-09-13 21:49:45,473 - INFO -   CBS-only: 0/20 agents successful in 150.16s
+2025-09-13 21:49:45,622 - INFO -   Auction-only: 17/20 agents successful in 0.12s
+2025-09-13 21:52:15,906 - INFO -   Hybrid: 17/20 agents successful in 150.25s
+2025-09-13 21:52:15,907 - INFO - Running scenario agents_20_seed_2
+2025-09-13 21:52:15,961 - INFO -   CBS-only: 20/20 agents successful in 0.04s
+2025-09-13 21:52:16,011 - INFO -   Auction-only: 19/20 agents successful in 0.05s
+2025-09-13 21:52:16,053 - INFO -   Hybrid: 20/20 agents successful in 0.04s
+2025-09-13 21:52:16,054 - INFO - Running scenario agents_20_seed_3
+2025-09-13 21:54:00,829 - INFO -   CBS-only: 0/20 agents successful in 81.25s
+2025-09-13 21:54:00,915 - INFO -   Auction-only: 18/20 agents successful in 0.08s
+2025-09-13 21:55:22,424 - INFO -   Hybrid: 18/20 agents successful in 81.50s
+2025-09-13 21:55:22,425 - INFO - Running scenario agents_20_seed_4
+2025-09-13 21:55:22,707 - INFO -   CBS-only: 20/20 agents successful in 0.24s
+2025-09-13 21:55:22,840 - INFO -   Auction-only: 19/20 agents successful in 0.13s
+2025-09-13 21:55:23,068 - INFO -   Hybrid: 20/20 agents successful in 0.22s
+2025-09-13 21:55:23,069 - INFO - Running scenario agents_20_seed_5
+2025-09-13 21:57:53,216 - INFO -   CBS-only: 0/20 agents successful in 150.09s
+2025-09-13 21:57:53,320 - INFO -   Auction-only: 19/20 agents successful in 0.09s
+2025-09-13 22:00:14,050 - INFO -   Hybrid: 19/20 agents successful in 140.71s
+2025-09-13 22:00:14,051 - INFO - Running scenario agents_20_seed_6
+2025-09-13 22:02:44,213 - INFO -   CBS-only: 0/20 agents successful in 150.12s
+2025-09-13 22:02:44,258 - INFO -   Auction-only: 19/20 agents successful in 0.04s
+2025-09-13 22:05:14,386 - INFO -   Hybrid: 19/20 agents successful in 150.12s
+2025-09-13 22:05:14,387 - INFO - Running scenario agents_20_seed_7
+2025-09-13 22:07:44,502 - INFO -   CBS-only: 0/20 agents successful in 150.06s
+2025-09-13 22:07:44,582 - INFO -   Auction-only: 19/20 agents successful in 0.06s
+2025-09-13 22:10:14,812 - INFO -   Hybrid: 19/20 agents successful in 150.19s
+2025-09-13 22:10:14,813 - INFO - Running scenario agents_20_seed_8
+2025-09-13 22:10:15,438 - INFO -   CBS-only: 20/20 agents successful in 0.57s
+2025-09-13 22:10:15,545 - INFO -   Auction-only: 19/20 agents successful in 0.08s
+2025-09-13 22:10:16,159 - INFO -   Hybrid: 20/20 agents successful in 0.59s
+2025-09-13 22:10:16,160 - INFO - Running scenario agents_20_seed_9
+2025-09-13 22:10:42,469 - INFO -   CBS-only: 0/20 agents successful in 26.27s
+2025-09-13 22:10:42,593 - INFO -   Auction-only: 17/20 agents successful in 0.12s
+2025-09-13 22:11:08,911 - INFO -   Hybrid: 17/20 agents successful in 26.31s
+2025-09-13 22:11:08,912 - INFO - Running scenario agents_20_seed_10
+2025-09-13 22:11:09,058 - INFO -   CBS-only: 20/20 agents successful in 0.11s
+2025-09-13 22:11:09,191 - INFO -   Auction-only: 19/20 agents successful in 0.13s
+2025-09-13 22:11:09,298 - INFO -   Hybrid: 20/20 agents successful in 0.10s
+2025-09-13 22:11:09,299 - INFO - Running scenario agents_20_seed_11
+2025-09-13 22:11:36,932 - INFO -   CBS-only: 0/20 agents successful in 27.50s
+2025-09-13 22:11:37,105 - INFO -   Auction-only: 19/20 agents successful in 0.17s
+2025-09-13 22:12:04,201 - INFO -   Hybrid: 19/20 agents successful in 27.09s
+2025-09-13 22:12:04,203 - INFO - Running scenario agents_20_seed_12
+2025-09-13 22:12:04,373 - INFO -   CBS-only: 20/20 agents successful in 0.15s
+2025-09-13 22:12:04,450 - INFO -   Auction-only: 18/20 agents successful in 0.07s
+2025-09-13 22:12:04,603 - INFO -   Hybrid: 20/20 agents successful in 0.15s
+2025-09-13 22:12:04,605 - INFO - Running scenario agents_20_seed_13
+2025-09-13 22:12:44,532 - INFO -   CBS-only: 0/20 agents successful in 39.86s
+2025-09-13 22:12:44,662 - INFO -   Auction-only: 18/20 agents successful in 0.11s
+2025-09-13 22:13:24,967 - INFO -   Hybrid: 18/20 agents successful in 40.29s
+2025-09-13 22:13:24,968 - INFO - Running scenario agents_20_seed_14
+2025-09-13 22:13:25,187 - INFO -   CBS-only: 20/20 agents successful in 0.15s
+2025-09-13 22:13:25,347 - INFO -   Auction-only: 18/20 agents successful in 0.14s
+2025-09-13 22:13:25,509 - INFO -   Hybrid: 20/20 agents successful in 0.15s
+2025-09-13 22:13:25,512 - INFO - Running scenario agents_20_seed_15
+2025-09-13 22:14:15,713 - INFO -   CBS-only: 0/20 agents successful in 50.15s
+2025-09-13 22:14:15,819 - INFO -   Auction-only: 18/20 agents successful in 0.08s
+2025-09-13 22:15:05,627 - INFO -   Hybrid: 18/20 agents successful in 49.79s
+2025-09-13 22:15:05,628 - INFO - Running scenario agents_20_seed_16
+2025-09-13 22:15:05,868 - INFO -   CBS-only: 20/20 agents successful in 0.22s
+2025-09-13 22:15:05,988 - INFO -   Auction-only: 19/20 agents successful in 0.12s
+2025-09-13 22:15:06,224 - INFO -   Hybrid: 20/20 agents successful in 0.23s
+2025-09-13 22:15:06,226 - INFO - Running scenario agents_20_seed_17
+2025-09-13 22:15:06,458 - INFO -   CBS-only: 20/20 agents successful in 0.18s
+2025-09-13 22:15:06,559 - INFO -   Auction-only: 19/20 agents successful in 0.10s
+2025-09-13 22:15:06,739 - INFO -   Hybrid: 20/20 agents successful in 0.18s
+2025-09-13 22:15:06,740 - INFO - Running scenario agents_20_seed_18
+2025-09-13 22:16:52,521 - INFO -   CBS-only: 0/20 agents successful in 105.74s
+2025-09-13 22:16:52,613 - INFO -   Auction-only: 18/20 agents successful in 0.09s
+2025-09-13 22:18:38,515 - INFO -   Hybrid: 18/20 agents successful in 105.90s
+2025-09-13 22:18:38,516 - INFO - Running scenario agents_20_seed_19
+2025-09-13 22:18:38,669 - INFO -   CBS-only: 20/20 agents successful in 0.12s
+2025-09-13 22:18:38,746 - INFO -   Auction-only: 19/20 agents successful in 0.07s
+2025-09-13 22:18:38,871 - INFO -   Hybrid: 20/20 agents successful in 0.11s
+2025-09-13 22:18:38,873 - INFO -
+Summary for 20 agents (20 scenarios):
+2025-09-13 22:18:38,873 - INFO -   CBS-only:
+2025-09-13 22:18:38,873 - INFO -     Success rate: 0.450 ± 0.497
+2025-09-13 22:18:38,873 - INFO -     Computation time: 49.880s ± 58.257s
+2025-09-13 22:18:38,873 - INFO -     Gini coefficient: 0.304 ± 0.339
+2025-09-13 22:18:38,873 - INFO -     Budget correlation: 0.000 ± 0.000
+2025-09-13 22:18:38,873 - INFO -   Auction-only:
+2025-09-13 22:18:38,874 - INFO -     Success rate: 0.922 ± 0.033
+2025-09-13 22:18:38,874 - INFO -     Computation time: 0.099s ± 0.032s
+2025-09-13 22:18:38,874 - INFO -     Revenue: 91.84 ± 26.63
+2025-09-13 22:18:38,874 - INFO -     Gini coefficient: 0.674 ± 0.079
+2025-09-13 22:18:38,874 - INFO -     Budget correlation: 0.142 ± 0.038
+2025-09-13 22:18:38,874 - INFO -   Hybrid:
+2025-09-13 22:18:38,874 - INFO -     Success rate: 0.950 ± 0.052
+2025-09-13 22:18:38,874 - INFO -     Computation time: 49.312s ± 57.491s
+2025-09-13 22:18:38,874 - INFO -     Revenue: 49.66 ± 50.34
+2025-09-13 22:18:38,875 - INFO -     Gini coefficient: 0.681 ± 0.077
+2025-09-13 22:18:38,875 - INFO -     Budget correlation: 0.083 ± 0.082
+2025-09-13 22:18:38,875 - INFO -
+=== Testing 24 regular agents ===
+2025-09-13 22:18:38,904 - INFO - Running scenario agents_24_seed_0
+2025-09-13 22:22:51,577 - INFO -   CBS-only: 0/24 agents successful in 252.59s
+2025-09-13 22:22:51,805 - INFO -   Auction-only: 21/24 agents successful in 0.20s
+2025-09-13 22:27:05,031 - INFO -   Hybrid: 21/24 agents successful in 253.20s
+2025-09-13 22:27:05,034 - INFO - Running scenario agents_24_seed_1
+2025-09-13 22:27:52,197 - INFO -   CBS-only: 0/24 agents successful in 33.33s
+2025-09-13 22:27:52,385 - INFO -   Auction-only: 23/24 agents successful in 0.15s
+2025-09-13 22:28:26,095 - INFO -   Hybrid: 23/24 agents successful in 33.68s
+2025-09-13 22:28:26,096 - INFO - Running scenario agents_24_seed_2
+2025-09-13 22:28:26,197 - INFO -   CBS-only: 24/24 agents successful in 0.09s
+2025-09-13 22:28:26,311 - INFO -   Auction-only: 22/24 agents successful in 0.11s
+2025-09-13 22:28:26,396 - INFO -   Hybrid: 24/24 agents successful in 0.08s
+2025-09-13 22:28:26,397 - INFO - Running scenario agents_24_seed_3
+2025-09-13 22:31:20,192 - INFO -   CBS-only: 0/24 agents successful in 150.14s
+2025-09-13 22:31:20,322 - INFO -   Auction-only: 22/24 agents successful in 0.12s
+2025-09-13 22:33:50,626 - INFO -   Hybrid: 22/24 agents successful in 150.30s
+2025-09-13 22:33:50,627 - INFO - Running scenario agents_24_seed_4
+2025-09-13 22:36:20,794 - INFO -   CBS-only: 0/24 agents successful in 150.13s
+2025-09-13 22:36:20,963 - INFO -   Auction-only: 23/24 agents successful in 0.16s
+2025-09-13 22:38:51,168 - INFO -   Hybrid: 23/24 agents successful in 150.20s
+2025-09-13 22:38:51,169 - INFO - Running scenario agents_24_seed_5
+2025-09-13 22:41:18,722 - INFO -   CBS-only: 0/24 agents successful in 147.49s
+2025-09-13 22:41:18,895 - INFO -   Auction-only: 23/24 agents successful in 0.16s
+2025-09-13 22:43:47,355 - INFO -   Hybrid: 23/24 agents successful in 148.44s
+2025-09-13 22:43:47,357 - INFO - Running scenario agents_24_seed_6
+2025-09-13 22:45:44,072 - INFO -   CBS-only: 0/24 agents successful in 116.67s
+2025-09-13 22:45:44,151 - INFO -   Auction-only: 23/24 agents successful in 0.07s
+2025-09-13 22:47:38,911 - INFO -   Hybrid: 23/24 agents successful in 114.76s
+2025-09-13 22:47:38,912 - INFO - Running scenario agents_24_seed_7
+2025-09-13 22:49:05,108 - INFO -   CBS-only: 0/24 agents successful in 86.14s
+2025-09-13 22:49:05,317 - INFO -   Auction-only: 23/24 agents successful in 0.17s
+2025-09-13 22:50:43,628 - INFO -   Hybrid: 23/24 agents successful in 98.29s
+2025-09-13 22:50:43,629 - INFO - Running scenario agents_24_seed_8
+2025-09-13 22:50:44,557 - INFO -   CBS-only: 24/24 agents successful in 0.87s
+2025-09-13 22:50:44,720 - INFO -   Auction-only: 23/24 agents successful in 0.14s
+2025-09-13 22:50:45,618 - INFO -   Hybrid: 24/24 agents successful in 0.87s
+2025-09-13 22:50:45,619 - INFO - Running scenario agents_24_seed_9
+2025-09-13 22:54:35,331 - INFO -   CBS-only: 0/24 agents successful in 229.64s
+2025-09-13 22:54:35,497 - INFO -   Auction-only: 21/24 agents successful in 0.16s
+2025-09-13 22:58:24,834 - INFO -   Hybrid: 21/24 agents successful in 229.33s
+2025-09-13 22:58:24,837 - INFO - Running scenario agents_24_seed_10
+2025-09-13 22:58:25,134 - INFO -   CBS-only: 24/24 agents successful in 0.25s
+2025-09-13 22:58:25,341 - INFO -   Auction-only: 23/24 agents successful in 0.20s
+2025-09-13 22:58:25,594 - INFO -   Hybrid: 24/24 agents successful in 0.25s
+2025-09-13 22:58:25,595 - INFO - Running scenario agents_24_seed_11
+2025-09-13 22:59:05,139 - INFO -   CBS-only: 0/24 agents successful in 39.38s
+2025-09-13 22:59:05,486 - INFO -   Auction-only: 23/24 agents successful in 0.34s
+2025-09-13 22:59:45,043 - INFO -   Hybrid: 23/24 agents successful in 39.55s
+2025-09-13 22:59:45,044 - INFO - Running scenario agents_24_seed_12
+2025-09-13 22:59:45,379 - INFO -   CBS-only: 24/24 agents successful in 0.31s
+2025-09-13 22:59:45,507 - INFO -   Auction-only: 23/24 agents successful in 0.12s
+2025-09-13 22:59:45,839 - INFO -   Hybrid: 24/24 agents successful in 0.33s
+2025-09-13 22:59:45,840 - INFO - Running scenario agents_24_seed_13
+2025-09-13 23:00:40,600 - INFO -   CBS-only: 0/24 agents successful in 54.68s
+2025-09-13 23:00:40,782 - INFO -   Auction-only: 22/24 agents successful in 0.16s
+2025-09-13 23:01:36,135 - INFO -   Hybrid: 22/24 agents successful in 55.33s
+2025-09-13 23:01:36,136 - INFO - Running scenario agents_24_seed_14
+2025-09-13 23:03:41,676 - INFO -   CBS-only: 0/24 agents successful in 125.46s
+2025-09-13 23:03:42,010 - INFO -   Auction-only: 22/24 agents successful in 0.31s
+2025-09-13 23:05:46,388 - INFO -   Hybrid: 22/24 agents successful in 124.36s
+2025-09-13 23:05:46,389 - INFO - Running scenario agents_24_seed_15
+2025-09-13 23:06:52,688 - INFO -   CBS-only: 0/24 agents successful in 66.24s
+2025-09-13 23:06:52,921 - INFO -   Auction-only: 22/24 agents successful in 0.20s
+2025-09-13 23:07:58,659 - INFO -   Hybrid: 22/24 agents successful in 65.71s
+2025-09-13 23:07:58,661 - INFO - Running scenario agents_24_seed_16
+2025-09-13 23:10:28,819 - INFO -   CBS-only: 0/24 agents successful in 150.13s
+2025-09-13 23:10:29,064 - INFO -   Auction-only: 23/24 agents successful in 0.24s
+2025-09-13 23:12:59,465 - INFO -   Hybrid: 23/24 agents successful in 150.40s
+2025-09-13 23:12:59,466 - INFO - Running scenario agents_24_seed_17
+2025-09-13 23:12:59,771 - INFO -   CBS-only: 24/24 agents successful in 0.24s
+2025-09-13 23:12:59,942 - INFO -   Auction-only: 23/24 agents successful in 0.16s
+2025-09-13 23:13:00,218 - INFO -   Hybrid: 24/24 agents successful in 0.27s
+2025-09-13 23:13:00,219 - INFO - Running scenario agents_24_seed_18
+2025-09-13 23:15:30,351 - INFO -   CBS-only: 0/24 agents successful in 150.08s
+2025-09-13 23:15:30,510 - INFO -   Auction-only: 21/24 agents successful in 0.15s
+2025-09-13 23:18:00,802 - INFO -   Hybrid: 21/24 agents successful in 150.29s
+2025-09-13 23:18:00,803 - INFO - Running scenario agents_24_seed_19
+2025-09-13 23:20:30,930 - INFO -   CBS-only: 0/24 agents successful in 150.09s
+2025-09-13 23:20:31,058 - INFO -   Auction-only: 23/24 agents successful in 0.12s
+2025-09-13 23:23:01,258 - INFO -   Hybrid: 23/24 agents successful in 150.19s
+2025-09-13 23:23:01,259 - INFO -
+Summary for 24 agents (20 scenarios):
+2025-09-13 23:23:01,260 - INFO -   CBS-only:
+2025-09-13 23:23:01,260 - INFO -     Success rate: 0.250 ± 0.433
+2025-09-13 23:23:01,261 - INFO -     Computation time: 95.196s ± 76.329s
+2025-09-13 23:23:01,261 - INFO -     Gini coefficient: 0.171 ± 0.297
+2025-09-13 23:23:01,262 - INFO -     Budget correlation: 0.000 ± 0.000
+2025-09-13 23:23:01,262 - INFO -   Auction-only:
+2025-09-13 23:23:01,262 - INFO -     Success rate: 0.935 ± 0.031
+2025-09-13 23:23:01,262 - INFO -     Computation time: 0.173s ± 0.063s
+2025-09-13 23:23:01,262 - INFO -     Revenue: 112.10 ± 30.25
+2025-09-13 23:23:01,262 - INFO -     Gini coefficient: 0.662 ± 0.079
+2025-09-13 23:23:01,263 - INFO -     Budget correlation: 0.131 ± 0.040
+2025-09-13 23:23:01,263 - INFO -   Hybrid:
+2025-09-13 23:23:01,263 - INFO -     Success rate: 0.948 ± 0.041
+2025-09-13 23:23:01,263 - INFO -     Computation time: 95.791s ± 76.324s
+2025-09-13 23:23:01,263 - INFO -     Revenue: 84.18 ± 56.28
+2025-09-13 23:23:01,263 - INFO -     Gini coefficient: 0.665 ± 0.079
+2025-09-13 23:23:01,263 - INFO -     Budget correlation: 0.100 ± 0.069
+2025-09-13 23:23:01,263 - INFO -
+=== Experiment Complete ===
+2025-09-13 23:23:01,379 - INFO - Results saved to experiment_results.json
+
+=== KEY FINDINGS ===
+• Hybrid achieved the highest overall success rate: 0.969
+• Auction-only was the fastest algorithm with average time: 0.068s
+• CBS-only achieved Gini coefficient of 0.406
+• Tested scalability across 6 different agent counts: [4, 8, 12, 16, 20, 24]
+• Auction-only generated average revenue of 69.69 per scenario
+• Hybrid generated average revenue of 90.92 per scenario
+
+=== EXPERIMENT COMPLETE ===
+Total scenarios tested: 120
+Algorithms compared: 3
