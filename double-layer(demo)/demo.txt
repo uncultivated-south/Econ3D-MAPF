@@ -1,0 +1,176 @@
+DOUBLE-LAYER AIRSPACE SYSTEM DEMONSTRATION
+==================================================
+
+=== FLIGHT LEVEL ASSIGNMENT DEMONSTRATION ===
+
+Agent Layer Assignments:
+--------------------------------------------------
+Agent  1 (REGULAR  ): (1, 5) → (8, 5)
+           Direction: eastward   → Layer: LOWER
+           Rationale: Standard assignment: eastward → LOWER
+
+Agent  2 (REGULAR  ): (2, 3) → (7, 4)
+           Direction: eastward   → Layer: LOWER
+           Rationale: Standard assignment: eastward → LOWER
+
+Agent  3 (REGULAR  ): (8, 2) → (2, 3)
+           Direction: westward   → Layer: HIGHER
+           Rationale: Standard assignment: westward → HIGHER
+
+Agent  4 (REGULAR  ): (9, 6) → (1, 6)
+           Direction: westward   → Layer: HIGHER
+           Rationale: Standard assignment: westward → HIGHER
+
+Agent  5 (REGULAR  ): (4, 1) → (4, 8)
+           Direction: northward  → Layer: HIGHER
+           Rationale: Standard assignment: northward → HIGHER
+
+Agent  6 (REGULAR  ): (6, 8) → (6, 2)
+           Direction: southward  → Layer: LOWER
+           Rationale: Standard assignment: southward → LOWER
+
+Agent  7 (REGULAR  ): (4, 2) → (8, 7)
+           Direction: northward  → Layer: HIGHER
+           Rationale: Standard assignment: northward → HIGHER
+
+Agent  8 (REGULAR  ): (1, 8) → (3, 2)
+           Direction: southward  → Layer: LOWER
+           Rationale: Standard assignment: southward → LOWER
+
+Agent  9 (REGULAR  ): (6, 8) → (6, 2)
+           Direction: southward  → Layer: LOWER
+           Rationale: Standard assignment: southward → LOWER
+
+Agent 10 (REGULAR  ): (7, 8) → (2, 1)
+           Direction: southward  → Layer: LOWER
+           Rationale: Standard assignment: southward → LOWER
+
+Agent 11 (REGULAR  ): (1, 8) → (6, 3)
+           Direction: eastward   → Layer: LOWER
+           Rationale: Standard assignment: eastward → LOWER
+
+Agent 12 (REGULAR  ): (3, 8) → (8, 3)
+           Direction: eastward   → Layer: LOWER
+           Rationale: Standard assignment: eastward → LOWER
+
+Agent 13 (REGULAR  ): (1, 1) → (8, 7)
+           Direction: eastward   → Layer: LOWER
+           Rationale: Standard assignment: eastward → LOWER
+
+Agent 14 (REGULAR  ): (2, 1) → (6, 8)
+           Direction: northward  → Layer: HIGHER
+           Rationale: Standard assignment: northward → HIGHER
+
+Agent 15 (REGULAR  ): (2, 2) → (5, 5)
+           Direction: eastward   → Layer: LOWER
+           Rationale: Standard assignment: eastward → LOWER
+
+Agent 100 (EMERGENCY): (0, 4) → (9, 4)
+           Direction: eastward   → Layer: LOWER
+           Rationale: Standard assignment: eastward → LOWER
+
+Lower Layer: 11 agents
+Higher Layer: 5 agents
+
+=== FULL SYSTEM DEMONSTRATION ===
+
+Coordinating 16 agents...
+Emergency agents: 1
+Regular agents: 15
+INFO:double_layer_airspace.DoubleLayerSystem:Layer assignments: Lower=11, Higher=5
+INFO:double_layer_airspace.DoubleLayerSystem:Emergency agent 100 path set in LOWER layer
+
+CBS: Starting search with 10 agents
+CBS: Iteration 100, conflicts: 14
+CBS: Iteration 200, conflicts: 14
+CBS: Iteration 300, conflicts: 14
+CBS: Iteration 400, conflicts: 14
+CBS: Iteration 500, conflicts: 14
+CBS: Iteration 600, conflicts: 14
+CBS: Iteration 700, conflicts: 14
+CBS: Iteration 800, conflicts: 14
+CBS: Iteration 900, conflicts: 14
+CBS: Iteration 1000, conflicts: 14
+CBS: Search failed after 1000 iterations
+CBS: Best solution had 14 conflicts
+CBS: Auction candidates: [1, 6, 8, 9, 10, 11, 12, 13]
+INFO:auction_system:Starting auction with 8 agents
+INFO:auction_system:Starting auction round 1 with 8 agents
+INFO:auction_system:Round 1: Priced 11 cells, avg price: 1.006363636363636363636363636
+INFO:auction_system:Round 1: Initial winners: 4, losers: 4
+INFO:auction_system:Round 1: Final winners: 3, revenue: 17.86
+INFO:auction_system:Starting auction round 2 with 5 agents
+INFO:auction_system:Round 2: Priced 11 cells, avg price: 1.012727272727272727272727273
+INFO:auction_system:Round 2: Initial winners: 4, losers: 1
+INFO:auction_system:Round 2: Final winners: 4, revenue: 21.51
+INFO:auction_system:Starting auction round 3 with 1 agents
+INFO:auction_system:Round 3: Priced 11 cells, avg price: 1.00
+INFO:auction_system:Round 3: Initial winners: 1, losers: 0
+INFO:auction_system:Round 3: Final winners: 1, revenue: 4.73
+INFO:auction_system:Auction completed: 8 winners, 0 unassigned, revenue: 44.10
+INFO:double_layer_airspace.DoubleLayerSystem:Auction completed for 8 agents in LOWER
+
+CBS: Starting search with 5 agents
+CBS: Solution found at iteration 2
+INFO:double_layer_airspace.DoubleLayerSystem:CBS succeeded for 5 agents in HIGHER
+
+=== COORDINATION RESULTS ===
+Success: True
+Total Duration: 0.72 seconds
+Agents with Paths: 16
+Unassigned Agents: 0
+
+Timing Breakdown:
+  Assignment: 0.000s
+  Lower Layer: 0.714s
+  Higher Layer: 0.004s
+  Integration: 0.000s
+
+Agents by Layer:
+  LOWER: 11 agents
+  HIGHER: 5 agents
+
+=== EXAMPLE PATHS ===
+
+Agent 1 (Layer: LOWER):
+  Path length: 10 steps
+  t=0: (1,5) [GROUND - Takeoff]
+  t=1: (1,5) [LOWER LAYER - Ascent]
+  t=2: (1,5) [LOWER LAYER - Remain]
+  t=4: (2,5) [Horizontal movement]
+  t=5: (3,5) [Horizontal movement]
+  ... 5 more steps
+
+Agent 2 (Layer: LOWER):
+  Path length: 3 steps
+  t=0: (2,3) [GROUND - Takeoff]
+  t=1: (2,3) [LOWER LAYER - Ascent]
+  t=2: (2,3) [LOWER LAYER - Remain]
+
+Agent 6 (Layer: LOWER):
+  Path length: 3 steps
+  t=0: (6,8) [GROUND - Takeoff]
+  t=1: (6,8) [LOWER LAYER - Ascent]
+  t=2: (6,8) [LOWER LAYER - Remain]
+
+=== PATH VALIDATION ===
+Valid paths: 16
+Invalid paths: 0
+
+=== CONFLICT ANALYSIS DEMONSTRATION ===
+Conflict Analysis:
+  Original (single layer): 15 conflicts
+  Lower layer: 3 conflicts
+  Higher layer: 2 conflicts
+  Total after separation: 5 conflicts
+  Conflicts eliminated: 10
+  Reduction: 66.7%
+  Separation effective: True
+
+=== DEMONSTRATION COMPLETE ===
+The double-layer system successfully:
+  ✓ Assigned agents to appropriate layers
+  ✓ Coordinated pathfinding within each layer
+  ✓ Applied vertical movement protocol
+  ✓ Integrated results into complete paths
+  ✓ All coordination completed successfully
