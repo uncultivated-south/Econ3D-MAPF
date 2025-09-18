@@ -587,7 +587,7 @@ if __name__ == "__main__":
     print("This may take several minutes...")
     
     # Run experiment
-    results = runner.run_experiment(num_scenarios=300)  # Reduced for testing
+    results = runner.run_experiment(num_scenarios=1000)  # Reduced for testing
     
     # Analyze results
     success_rates, avg_iterations, avg_cost = runner.analyze_results(results)
