@@ -1,0 +1,29 @@
+Scenario 72/5000
+  Actual: FAILED
+  Predicted: SOLVABLE (conf: 0.71)
+  Result: ✗
+
+Scenario 510/5000
+  Actual: SOLVED
+  Predicted: UNSOLVABLE (conf: 1.00)
+  Result: ✗
+
+Scenario 673/5000
+  Actual: FAILED
+  Predicted: SOLVABLE (conf: 0.71)
+  Result: ✗
+
+Scenario 880/5000
+  Actual: SOLVED
+  Predicted: UNSOLVABLE (conf: 0.86)
+  Result: ✗
+
+Scenario 963/5000
+  Actual: FAILED
+  Predicted: SOLVABLE (conf: 0.71)
+  Result: ✗
+
+Scenario 2813/5000
+  Actual: FAILED
+  Predicted: SOLVABLE (conf: 0.71)
+  Result: ✗

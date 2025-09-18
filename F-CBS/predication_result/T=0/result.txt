@@ -1,0 +1,5 @@
+=== PREDICTION ACCURACY ===
+Valid Predictions: 2983/5000
+Overall Accuracy: 91.89%
+Solvable Scenarios: 206 cases, 3.40% accuracy
+Unsolvable Scenarios: 2777 cases, 98.45% accuracy

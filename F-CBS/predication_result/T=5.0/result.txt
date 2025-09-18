@@ -1,0 +1,7 @@
+=== PREDICTION ACCURACY ===
+Valid Predictions: 2899/5000
+Overall Accuracy: 99.38%
+Solvable Scenarios: 2 cases, 0.00% accuracy
+Unsolvable Scenarios: 2897 cases, 99.45% accuracy
+
+Results saved to 'phase_predictor_validation.csv'
