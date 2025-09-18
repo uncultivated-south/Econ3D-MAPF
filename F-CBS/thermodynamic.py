@@ -1,256 +1,240 @@
 import numpy as np
-import heapq
-import random
-import time
-import math
-from collections import defaultdict
-from dataclasses import dataclass
-from typing import List, Tuple, Dict, Optional, Set
-import matplotlib.pyplot as plt
 import pandas as pd
+import matplotlib.pyplot as plt
+import time
+from collections import defaultdict
+import math
+import random
+import heapq
+from fcbs_with_annealing import Grid, FCBS, FCBSNode, Agent, CBS
 
-@dataclass
-class ThermodynamicTrace:
-    """Store thermodynamic quantities during CBS search"""
-    iteration: int
-    entropy: float
-    temperature: float
-    free_energy: float
-    cost: int
-    entropy_production_rate: float
-    conflicts_count: int
+# Import your existing classes (assuming they're in the same file or imported)
+# from your_cbs_module import *
+
+class ThermodynamicTracker:
+    """Track thermodynamic properties of CBS system during solving"""
     
-@dataclass
-class Agent:
-    id: int
-    start: Tuple[int, int]
-    goal: Tuple[int, int]
-    path: List[Tuple[int, int]] = None
-
-@dataclass
-class VertexConstraint:
-    agent: int
-    location: Tuple[int, int]
-    timestep: int
-    
-@dataclass
-class EdgeConstraint:
-    agent: int
-    from_location: Tuple[int, int]
-    to_location: Tuple[int, int]
-    timestep: int
-
-class FCBSNode:
-    def __init__(self):
-        self.vertex_constraints = []
-        self.edge_constraints = []
-        self.solution = {}
-        self.cost = 0
-        self.conflicts = []
-        self.entropy = 0.0
-        self.free_energy = 0.0
+    def __init__(self, window_size=50):
+        self.window_size = window_size
+        self.iteration_data = []
         
-    def __lt__(self, other):
-        return self.free_energy < other.free_energy
-
-class Grid:
-    def __init__(self, width=12, height=12, obstacles=None):
-        self.width = width
-        self.height = height
-        self.obstacles = obstacles or set()
-        
-    def is_valid(self, pos):
-        x, y = pos
-        return 0 <= x < self.width and 0 <= y < self.height and pos not in self.obstacles
-    
-    def get_neighbors(self, pos):
-        x, y = pos
-        neighbors = [(x+1, y), (x-1, y), (x, y+1), (x, y-1), (x, y)]
-        return [n for n in neighbors if self.is_valid(n)]
-
-class PathFinder:
-    def __init__(self, grid):
-        self.grid = grid
-    
-    def a_star(self, start, goal, vertex_constraints=None, edge_constraints=None, max_iterations=10000, timeout_seconds=30):
-        vertex_constraints = vertex_constraints or []
-        edge_constraints = edge_constraints or []
-        
-        vertex_constraint_table = defaultdict(set)
-        edge_constraint_table = defaultdict(set)
-        
-        for c in vertex_constraints:
-            vertex_constraint_table[c.timestep].add(c.location)
+    def calculate_rates(self, history_data, property_name, window_size=None):
+        """Calculate rate of change for any property"""
+        if window_size is None:
+            window_size = min(self.window_size, len(history_data))
             
-        for c in edge_constraints:
-            edge_constraint_table[c.timestep].add((c.from_location, c.to_location))
-        
-        open_list = [(self.heuristic(start, goal), 0, start, [start])]
-        closed_set = set()
-        
-        iteration = 0
-        start_time = time.time()
-
-        while open_list:
-            iteration += 1
-            if iteration > max_iterations:
-                return None
-            
-            if time.time() - start_time > timeout_seconds:
-                return None
-            
-            _, cost, current, path = heapq.heappop(open_list)
-            
-            if current == goal:
-                return path
-            
-            if (current, len(path)-1) in closed_set:
-                continue
-            closed_set.add((current, len(path)-1))
-            
-            for neighbor in self.grid.get_neighbors(current):
-                timestep = len(path)
-                
-                if neighbor in vertex_constraint_table[timestep]:
-                    continue
-                    
-                if (current, neighbor) in edge_constraint_table[timestep]:
-                    continue
-                
-                new_path = path + [neighbor]
-                new_cost = cost + 1
-                priority = new_cost + self.heuristic(neighbor, goal)
-                heapq.heappush(open_list, (priority, new_cost, neighbor, new_path))
-        
-        return None
-    
-    def heuristic(self, pos1, pos2):
-        return abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
-
-class ConflictDetector:
-    @staticmethod
-    def find_conflicts(paths):
-        conflicts = []
-        agents = list(paths.keys())
-        
-        for i in range(len(agents)):
-            for j in range(i + 1, len(agents)):
-                agent1, agent2 = agents[i], agents[j]
-                path1, path2 = paths[agent1], paths[agent2]
-                
-                max_len = max(len(path1), len(path2))
-                
-                for t in range(max_len):
-                    pos1 = path1[t] if t < len(path1) else path1[-1]
-                    pos2 = path2[t] if t < len(path2) else path2[-1]
-                    
-                    if pos1 == pos2:
-                        conflicts.append({
-                            'type': 'vertex',
-                            'agents': [agent1, agent2],
-                            'location': pos1,
-                            'timestep': t
-                        })
-                    
-                    if t > 0:
-                        prev_pos1 = path1[t-1] if t-1 < len(path1) else path1[-1]
-                        prev_pos2 = path2[t-1] if t-1 < len(path2) else path2[-1]
-                        
-                        if pos1 == prev_pos2 and pos2 == prev_pos1 and pos1 != pos2:
-                            conflicts.append({
-                                'type': 'edge',
-                                'agents': [agent1, agent2],
-                                'from_locations': [prev_pos1, prev_pos2],
-                                'to_locations': [pos1, pos2],
-                                'timestep': t
-                            })
-        
-        return conflicts
-
-class ThermodynamicFCBS:
-    def __init__(self, grid, agents, initial_temperature=-5.0, using_annealing=True, annealing_iterations=10):
-        self.grid = grid
-        self.agents = agents
-        self.pathfinder = PathFinder(grid)
-        self.conflict_detector = ConflictDetector()
-        self.initial_temperature = initial_temperature
-        self.current_temperature = initial_temperature
-        self.use_annealing = using_annealing
-        self.annealing_iterations = annealing_iterations
-        
-        # Thermodynamic tracking
-        self.thermodynamic_trace = []
-        self.previous_entropy = 0.0
-    
-    def update_temperature(self, iteration):
-        if self.use_annealing and iteration > self.annealing_iterations:
-            # Exponential annealing to zero
-            decay_rate = 0.1
-            remaining_iterations = iteration - self.annealing_iterations
-            self.current_temperature = self.initial_temperature * math.exp(-decay_rate * remaining_iterations)
-            
-            # Clamp to zero when very small
-            if abs(self.current_temperature) < 0.01:
-                self.current_temperature = 0.0
-        else:
-            self.current_temperature = self.initial_temperature
-
-    def calculate_entropy(self, conflicts):
-        if not conflicts:
+        if len(history_data) < 2:
             return 0.0
+            
+        recent_data = history_data[-window_size:] if len(history_data) >= window_size else history_data
         
-        conflict_counts = defaultdict(float)
-        total_conflict_weight = 0.0
-        
-        for conflict in conflicts:
-            if conflict['type'] == 'vertex':
-                conflict_counts[conflict['location']] += 1.0
-                total_conflict_weight += 1.0
-                
-            elif conflict['type'] == 'edge':
-                for to_loc in conflict['to_locations']:
-                    conflict_counts[to_loc] += 0.5
-                total_conflict_weight += 1.0
-        
-        if total_conflict_weight == 0.0:
+        if len(recent_data) < 2:
             return 0.0
+            
+        values = [getattr(item, property_name) for item in recent_data]
         
-        entropy = 0.0
-        for count in conflict_counts.values():
+        # Calculate rate using linear regression
+        x = np.arange(len(values))
+        if len(values) >= 2:
+            try:
+                slope, _ = np.polyfit(x, values, 1)
+                return slope
+            except:
+                return 0.0
+        return 0.0
+    
+    def calculate_variance(self, history_data, property_name, window_size=None):
+        """Calculate variance of property over window"""
+        if window_size is None:
+            window_size = min(self.window_size, len(history_data))
+            
+        if len(history_data) < window_size:
+            return float('inf')
+            
+        recent_data = history_data[-window_size:]
+        values = [getattr(item, property_name) for item in recent_data]
+        return np.var(values) if len(values) > 1 else 0.0
+    
+    def calculate_autocorrelation(self, history_data, property_name, lag=1, window_size=None):
+        """Calculate autocorrelation of property"""
+        if window_size is None:
+            window_size = min(self.window_size, len(history_data))
+            
+        if len(history_data) < window_size or window_size <= lag:
+            return 0.0
+            
+        recent_data = history_data[-window_size:]
+        values = np.array([getattr(item, property_name) for item in recent_data])
+        
+        if len(values) <= lag:
+            return 0.0
+            
+        # Calculate Pearson correlation between series and lagged series
+        series1 = values[:-lag]
+        series2 = values[lag:]
+        
+        if len(series1) < 2 or np.std(series1) == 0 or np.std(series2) == 0:
+            return 0.0
+            
+        correlation = np.corrcoef(series1, series2)[0, 1]
+        return correlation if not np.isnan(correlation) else 0.0
+    
+    def calculate_exploration_rate(self, history_data, window_size=None):
+        """Calculate how much new search space is being explored"""
+        if window_size is None:
+            window_size = min(self.window_size, len(history_data))
+            
+        if len(history_data) < window_size:
+            return 1.0
+            
+        recent_nodes = history_data[-window_size:]
+        unique_solutions = set()
+        
+        for node in recent_nodes:
+            # Create hashable representation of solution
+            try:
+                solution_hash = tuple(sorted([
+                    (agent_id, tuple(path)) 
+                    for agent_id, path in node.solution.items()
+                ]))
+                unique_solutions.add(solution_hash)
+            except:
+                pass  # Skip if solution is malformed
+                
+        return len(unique_solutions) / len(recent_nodes) if recent_nodes else 0.0
+    
+    def calculate_conflict_persistence(self, conflict_history, window_size=None):
+        """Measure how persistent conflicts are in same locations"""
+        if window_size is None:
+            window_size = min(self.window_size, len(conflict_history))
+            
+        if len(conflict_history) < window_size:
+            return 0.0
+            
+        recent_conflicts = conflict_history[-window_size:]
+        location_counts = defaultdict(int)
+        total_conflicts = 0
+        
+        for conflicts in recent_conflicts:
+            for conflict in conflicts:
+                total_conflicts += 1
+                if conflict['type'] == 'vertex':
+                    location_counts[conflict['location']] += 1
+                else:  # edge conflict
+                    for loc in conflict['to_locations']:
+                        location_counts[loc] += 0.5
+        
+        if total_conflicts == 0:
+            return 0.0
+            
+        # Calculate entropy of conflict distribution
+        conflict_entropy = 0.0
+        for count in location_counts.values():
             if count > 0:
-                p = count / total_conflict_weight
-                entropy -= p * math.log2(p)
-        
-        return entropy
+                p = count / total_conflicts
+                conflict_entropy -= p * math.log2(p)
+                
+        # Normalize by maximum possible entropy
+        max_entropy = math.log2(len(location_counts)) if location_counts else 1
+        return 1.0 - (conflict_entropy / max_entropy) if max_entropy > 0 else 0.0
     
-    def calculate_entropy_production_rate(self, current_entropy):
-        """Calculate entropy production rate as change in entropy per iteration"""
-        if len(self.thermodynamic_trace) == 0:
-            return 0.0
+    def record_iteration(self, iteration, node, conflict_history, node_history):
+        """Record all metrics for current iteration"""
         
-        epr = current_entropy - self.previous_entropy
-        return epr
-    
-    def generate_constraints_for_conflict(self, conflict, agent_id):
-        constraints = {'vertex': [], 'edge': []}
+        # Calculate rates
+        entropy_production_rate = self.calculate_rates(node_history, 'entropy')
+        energy_dissipation_rate = -self.calculate_rates(node_history, 'free_energy')  # Negative because we want dissipation
+        cost_change_rate = self.calculate_rates(node_history, 'cost')
         
-        if conflict['type'] == 'vertex':
-            constraints['vertex'].append(
-                VertexConstraint(agent_id, conflict['location'], conflict['timestep'])
-            )
+        # Calculate variances
+        entropy_variance = self.calculate_variance(node_history, 'entropy')
+        energy_variance = self.calculate_variance(node_history, 'free_energy')
+        cost_variance = self.calculate_variance(node_history, 'cost')
         
-        elif conflict['type'] == 'edge':
-            agent_index = conflict['agents'].index(agent_id)
-            from_loc = conflict['from_locations'][agent_index]
-            to_loc = conflict['to_locations'][agent_index]
+        # Calculate autocorrelations
+        entropy_autocorr = self.calculate_autocorrelation(node_history, 'entropy', lag=1)
+        energy_autocorr = self.calculate_autocorrelation(node_history, 'free_energy', lag=1)
+        cost_autocorr = self.calculate_autocorrelation(node_history, 'cost', lag=1)
+        
+        # Calculate exploration and persistence
+        exploration_rate = self.calculate_exploration_rate(node_history)
+        conflict_persistence = self.calculate_conflict_persistence(conflict_history)
+        
+        # Calculate additional thermodynamic indicators
+        num_conflicts = len(node.conflicts)
+        conflict_density = num_conflicts / (12 * 12) if num_conflicts > 0 else 0.0  # Normalized by grid size
+        
+        # Phase space velocity (how fast the system state is changing)
+        phase_space_velocity = 0.0
+        if len(node_history) >= 2:
+            prev_node = node_history[-2]
+            # Measure change in system state
+            cost_change = abs(node.cost - prev_node.cost)
+            entropy_change = abs(node.entropy - prev_node.entropy)
+            phase_space_velocity = math.sqrt(cost_change**2 + entropy_change**2)
+        
+        # Thermodynamic efficiency (how much progress per energy spent)
+        thermodynamic_efficiency = 0.0
+        if node.free_energy > 0:
+            # Progress = reduction in conflicts
+            if len(node_history) >= 2:
+                prev_conflicts = len(node_history[-2].conflicts) if len(node_history) >= 2 else num_conflicts
+                conflict_reduction = max(0, prev_conflicts - num_conflicts)
+                thermodynamic_efficiency = conflict_reduction / node.free_energy
+        
+        data_point = {
+            'iteration': iteration,
+            'cost': node.cost,
+            'entropy': node.entropy,
+            'free_energy': node.free_energy,
+            'num_conflicts': num_conflicts,
+            'conflict_density': conflict_density,
             
-            constraints['edge'].append(
-                EdgeConstraint(agent_id, from_loc, to_loc, conflict['timestep'])
-            )
+            # Rates (production/dissipation)
+            'entropy_production_rate': entropy_production_rate,
+            'energy_dissipation_rate': energy_dissipation_rate,
+            'cost_change_rate': cost_change_rate,
+            
+            # Variances (measure of fluctuations)
+            'entropy_variance': entropy_variance,
+            'energy_variance': energy_variance,
+            'cost_variance': cost_variance,
+            
+            # Autocorrelations (measure of memory)
+            'entropy_autocorr': entropy_autocorr,
+            'energy_autocorr': energy_autocorr,
+            'cost_autocorr': cost_autocorr,
+            
+            # System dynamics
+            'exploration_rate': exploration_rate,
+            'conflict_persistence': conflict_persistence,
+            'phase_space_velocity': phase_space_velocity,
+            'thermodynamic_efficiency': thermodynamic_efficiency,
+            
+            # Stability indicators
+            'entropy_to_cost_ratio': node.entropy / node.cost if node.cost > 0 else 0,
+            'energy_gradient': energy_dissipation_rate,
+            'system_temperature': node.free_energy - node.cost if node.entropy > 0 else 0,  # Implicit temperature
+        }
         
-        return constraints
+        self.iteration_data.append(data_point)
+    
+    def get_dataframe(self):
+        """Return recorded data as pandas DataFrame"""
+        return pd.DataFrame(self.iteration_data)
+
+
+class ThermodynamicFCBS(FCBS):
+    """Enhanced F-CBS that tracks thermodynamic properties"""
+    
+    def __init__(self, grid, agents, temperature=1.0, using_annealing=False, annealing_iterations=5):
+        super().__init__(grid, agents, temperature, using_annealing, annealing_iterations)
+        self.tracker = ThermodynamicTracker()
+        self.node_history = []
+        self.conflict_history = []
     
     def solve(self, max_iterations=1024):
+        """Enhanced solve method with thermodynamic tracking"""
         start_time = time.time()
         root = FCBSNode()
         
@@ -261,7 +245,7 @@ class ThermodynamicFCBS:
                 root.vertex_constraints, root.edge_constraints
             )
             if path is None:
-                return None, 0, time.time() - start_time, []
+                return None, 0, time.time() - start_time, pd.DataFrame()
             root.solution[agent.id] = path
             root.cost += len(path) - 1
         
@@ -269,19 +253,10 @@ class ThermodynamicFCBS:
         root.entropy = self.calculate_entropy(root.conflicts)
         root.free_energy = root.cost + self.current_temperature * root.entropy
         
-        # Initialize thermodynamic tracking
-        self.previous_entropy = root.entropy
-        epr = self.calculate_entropy_production_rate(root.entropy)
-        
-        self.thermodynamic_trace.append(ThermodynamicTrace(
-            iteration=0,
-            entropy=root.entropy,
-            temperature=self.current_temperature,
-            free_energy=root.free_energy,
-            cost=root.cost,
-            entropy_production_rate=epr,
-            conflicts_count=len(root.conflicts)
-        ))
+        # Initialize tracking
+        self.node_history.append(root)
+        self.conflict_history.append(root.conflicts)
+        self.tracker.record_iteration(0, root, self.conflict_history, self.node_history)
         
         open_list = [root]
         iterations = 0
@@ -293,7 +268,9 @@ class ThermodynamicFCBS:
             current = heapq.heappop(open_list)
             
             if not current.conflicts:
-                return current.solution, iterations, time.time() - start_time, self.thermodynamic_trace
+                # Solution found - record final state
+                self.tracker.record_iteration(iterations, current, self.conflict_history, self.node_history)
+                return current.solution, iterations, time.time() - start_time, self.tracker.get_dataframe()
             
             conflict = current.conflicts[0]
             
@@ -320,182 +297,219 @@ class ThermodynamicFCBS:
                     new_node.entropy = self.calculate_entropy(new_node.conflicts)
                     new_node.free_energy = new_node.cost + self.current_temperature * new_node.entropy
                     
-                    # Track thermodynamics
-                    epr = self.calculate_entropy_production_rate(new_node.entropy)
-                    self.thermodynamic_trace.append(ThermodynamicTrace(
-                        iteration=iterations,
-                        entropy=new_node.entropy,
-                        temperature=self.current_temperature,
-                        free_energy=new_node.free_energy,
-                        cost=new_node.cost,
-                        entropy_production_rate=epr,
-                        conflicts_count=len(new_node.conflicts)
-                    ))
+                    # Track this node
+                    self.node_history.append(new_node)
+                    self.conflict_history.append(new_node.conflicts)
+                    self.tracker.record_iteration(iterations, new_node, self.conflict_history, self.node_history)
                     
-                    self.previous_entropy = new_node.entropy
                     heapq.heappush(open_list, new_node)
         
-        return None, iterations, time.time() - start_time, self.thermodynamic_trace
+        # No solution found
+        return None, iterations, time.time() - start_time, self.tracker.get_dataframe()
 
-class ThermodynamicAnalyzer:
-    def __init__(self):
-        pass
-    
-    def analyze_phase_transitions(self, trace_data):
-        """Detect potential phase transitions in the thermodynamic trace"""
-        if len(trace_data) < 5:
-            return None
-        
-        iterations = [t.iteration for t in trace_data]
-        epr_values = [t.entropy_production_rate for t in trace_data]
-        entropy_values = [t.entropy for t in trace_data]
-        
-        # Look for sudden changes in EPR (potential phase transitions)
-        epr_array = np.array(epr_values)
-        epr_gradient = np.gradient(epr_array)
-        
-        # Find points where EPR changes significantly
-        threshold = np.std(epr_gradient) * 2
-        transition_points = []
-        
-        for i in range(1, len(epr_gradient)-1):
-            if abs(epr_gradient[i]) > threshold:
-                transition_points.append({
-                    'iteration': iterations[i],
-                    'epr': epr_values[i],
-                    'entropy': entropy_values[i],
-                    'epr_gradient': epr_gradient[i]
-                })
-        
-        return transition_points
-    
-    def plot_thermodynamic_trajectory(self, successful_traces, failed_traces):
-        """Plot thermodynamic trajectories for successful vs failed attempts"""
-        fig, axes = plt.subplots(2, 3, figsize=(18, 12))
-        
-        # Plot successful traces
-        for trace in successful_traces:
-            iterations = [t.iteration for t in trace]
-            entropies = [t.entropy for t in trace]
-            eprs = [t.entropy_production_rate for t in trace]
-            temperatures = [t.temperature for t in trace]
-            free_energies = [t.free_energy for t in trace]
-            costs = [t.cost for t in trace]
-            
-            axes[0, 0].plot(iterations, entropies, 'g-', alpha=0.6, linewidth=1)
-            axes[0, 1].plot(iterations, eprs, 'g-', alpha=0.6, linewidth=1)
-            axes[0, 2].plot(iterations, free_energies, 'g-', alpha=0.6, linewidth=1)
-        
-        # Plot failed traces
-        for trace in failed_traces:
-            iterations = [t.iteration for t in trace]
-            entropies = [t.entropy for t in trace]
-            eprs = [t.entropy_production_rate for t in trace]
-            free_energies = [t.free_energy for t in trace]
-            
-            axes[1, 0].plot(iterations, entropies, 'r-', alpha=0.6, linewidth=1)
-            axes[1, 1].plot(iterations, eprs, 'r-', alpha=0.6, linewidth=1)
-            axes[1, 2].plot(iterations, free_energies, 'r-', alpha=0.6, linewidth=1)
-        
-        # Set titles and labels
-        axes[0, 0].set_title('Entropy - Successful Cases')
-        axes[0, 1].set_title('Entropy Production Rate - Successful Cases')
-        axes[0, 2].set_title('Free Energy - Successful Cases')
-        axes[1, 0].set_title('Entropy - Failed Cases')
-        axes[1, 1].set_title('Entropy Production Rate - Failed Cases')
-        axes[1, 2].set_title('Free Energy - Failed Cases')
-        
-        for ax in axes.flat:
-            ax.set_xlabel('CBS Iteration')
-            ax.grid(True, alpha=0.3)
-        
-        plt.tight_layout()
-        plt.show()
-        
-        return fig
-    
-    def detect_phase_transition_signatures(self, traces):
-        """Look for signatures of phase transitions across multiple runs"""
-        all_transition_points = []
-        
-        for trace in traces:
-            transitions = self.analyze_phase_transitions(trace)
-            if transitions:
-                all_transition_points.extend(transitions)
-        
-        if not all_transition_points:
-            return None
-        
-        # Analyze transition statistics
-        transition_iterations = [tp['iteration'] for tp in all_transition_points]
-        transition_eprs = [tp['epr'] for tp in all_transition_points]
-        
-        return {
-            'total_transitions': len(all_transition_points),
-            'avg_transition_iteration': np.mean(transition_iterations),
-            'std_transition_iteration': np.std(transition_iterations),
-            'avg_transition_epr': np.mean(transition_eprs),
-            'transition_points': all_transition_points
-        }
 
-# Example usage for thermodynamic analysis
-def run_thermodynamic_experiment():
-    """Run experiment focusing on thermodynamic analysis"""
+def run_thermodynamic_test(seed=42, max_iterations=2000):
+    """Run thermodynamic analysis test on a specific scenario"""
     
-    # Generate a test scenario
-    random.seed(42)
-    np.random.seed(42)
+    print(f"Running thermodynamic analysis test with seed {seed}")
+    print("=" * 60)
     
-    grid = Grid(10, 10, obstacles={(3,3), (3,4), (4,3), (4,4), (6,6), (6,7)})
-    agents = [
-        Agent(0, (0, 0), (9, 9)),
-        Agent(1, (0, 9), (9, 0)),
-        Agent(2, (5, 0), (5, 9)),
-        Agent(3, (0, 5), (9, 5))
+    # Set up scenario
+    random.seed(seed)
+    np.random.seed(seed)
+    
+    width, height = 12, 12
+    num_agents = 20
+    num_obstacles = 12
+    
+    # Generate obstacles
+    obstacles = set()
+    while len(obstacles) < num_obstacles:
+        x, y = random.randint(0, width-1), random.randint(0, height-1)
+        obstacles.add((x, y))
+    
+    grid = Grid(width, height, obstacles)
+    
+    # Generate agents
+    agents = []
+    occupied = obstacles.copy()
+    
+    for i in range(num_agents):
+        # Find valid start position
+        while True:
+            start = (random.randint(0, width-1), random.randint(0, height-1))
+            if start not in occupied:
+                occupied.add(start)
+                break
+        
+        # Find valid goal position
+        while True:
+            goal = (random.randint(0, width-1), random.randint(0, height-1))
+            if goal not in occupied and goal != start:
+                break
+        
+        agents.append(Agent(i, start, goal))
+    
+    print(f"Generated scenario:")
+    print(f"  Grid: {width}x{height}")
+    print(f"  Agents: {num_agents}")
+    print(f"  Obstacles: {num_obstacles}")
+    print(f"  Obstacle positions: {sorted(obstacles)}")
+    print(f"  Agent start->goal:")
+    for agent in agents:
+        print(f"    Agent {agent.id}: {agent.start} -> {agent.goal}")
+    
+    # Test different algorithms
+    algorithms = [
+        ("CBS", CBS(grid, agents)),
+        ("F-CBS (T=1.0)", ThermodynamicFCBS(grid, agents, temperature=1.0)),
+        ("F-CBS (T=5.0)", ThermodynamicFCBS(grid, agents, temperature=5.0)),
+        ("F-CBS Anneal (T=10.0→0)", ThermodynamicFCBS(grid, agents, temperature=10.0, using_annealing=True, annealing_iterations=50)),
     ]
     
-    successful_traces = []
-    failed_traces = []
+    results = []
     
-    # Test multiple temperature values
-    temperatures = [-10.0, -5.0, -2.0, -1.0]
-    
-    for temp in temperatures:
-        print(f"Testing temperature {temp}")
+    for alg_name, solver in algorithms:
+        print(f"\nTesting {alg_name}...")
+        start_time = time.time()
         
-        fcbs = ThermodynamicFCBS(grid, agents, initial_temperature=temp, 
-                                using_annealing=True, annealing_iterations=5)
-        solution, iterations, solve_time, trace = fcbs.solve(max_iterations=200)
-        
-        if solution:
-            successful_traces.append(trace)
-            print(f"  SUCCESS: {iterations} iterations, final entropy: {trace[-1].entropy:.3f}")
+        if isinstance(solver, ThermodynamicFCBS):
+            solution, iterations, solve_time, tracking_data = solver.solve(max_iterations)
         else:
-            failed_traces.append(trace)
-            print(f"  FAILED: {iterations} iterations, final entropy: {trace[-1].entropy:.3f}")
+            solution, iterations, solve_time = solver.solve(max_iterations)
+            tracking_data = pd.DataFrame()  # Empty for regular CBS
+        
+        # Calculate solution cost
+        cost = sum(len(path) - 1 for path in solution.values()) if solution else float('inf')
+        
+        result = {
+            'algorithm': alg_name,
+            'seed': seed,
+            'solved': solution is not None,
+            'iterations': iterations,
+            'cost': cost,
+            'solve_time': solve_time,
+            'total_time': time.time() - start_time
+        }
+        
+        results.append(result)
+        
+        print(f"  Result: {'SOLVED' if solution else 'FAILED'}")
+        print(f"  Iterations: {iterations}")
+        print(f"  Cost: {cost}")
+        print(f"  Time: {solve_time:.3f}s")
+        
+        # Save detailed tracking data if available
+        if not tracking_data.empty:
+            filename = f"thermodynamic_trace_{alg_name.replace(' ', '_').replace('(', '').replace(')', '').replace('->', '_to_')}_seed_{seed}.csv"
+            tracking_data['algorithm'] = alg_name
+            tracking_data['seed'] = seed
+            tracking_data.to_csv(filename, index=False)
+            print(f"  Tracking data saved to: {filename}")
     
-    # Analyze results
-    analyzer = ThermodynamicAnalyzer()
+    # Save summary results
+    results_df = pd.DataFrame(results)
+    summary_filename = f"thermodynamic_test_summary_seed_{seed}.csv"
+    results_df.to_csv(summary_filename, index=False)
+    print(f"\nSummary results saved to: {summary_filename}")
     
-    print(f"\nAnalyzing {len(successful_traces)} successful and {len(failed_traces)} failed traces...")
-    
-    # Plot trajectories
-    analyzer.plot_thermodynamic_trajectory(successful_traces, failed_traces)
-    
-    # Detect phase transitions
-    successful_transitions = analyzer.detect_phase_transition_signatures(successful_traces)
-    failed_transitions = analyzer.detect_phase_transition_signatures(failed_traces)
-    
-    print("\n=== PHASE TRANSITION ANALYSIS ===")
-    if successful_transitions:
-        print(f"Successful cases: {successful_transitions['total_transitions']} transitions detected")
-        print(f"  Average transition at iteration: {successful_transitions['avg_transition_iteration']:.1f}")
-        print(f"  Average EPR at transition: {successful_transitions['avg_transition_epr']:.3f}")
-    
-    if failed_transitions:
-        print(f"Failed cases: {failed_transitions['total_transitions']} transitions detected")
-        print(f"  Average transition at iteration: {failed_transitions['avg_transition_iteration']:.1f}")
-        print(f"  Average EPR at transition: {failed_transitions['avg_transition_epr']:.3f}")
+    return results_df
 
+
+def analyze_thermodynamic_results(tracking_file):
+    """Analyze thermodynamic properties from tracking data"""
+    
+    df = pd.read_csv(tracking_file)
+    
+    print(f"Analyzing thermodynamic data from {tracking_file}")
+    print("=" * 60)
+    
+    # Basic statistics
+    print("Final State:")
+    print(f"  Final Cost: {df['cost'].iloc[-1]}")
+    print(f"  Final Entropy: {df['entropy'].iloc[-1]:.3f}")
+    print(f"  Final Free Energy: {df['free_energy'].iloc[-1]:.3f}")
+    print(f"  Final Conflicts: {df['num_conflicts'].iloc[-1]}")
+    
+    print("\nThermodynamic Rates:")
+    print(f"  Average Entropy Production Rate: {df['entropy_production_rate'].mean():.6f}")
+    print(f"  Average Energy Dissipation Rate: {df['energy_dissipation_rate'].mean():.6f}")
+    print(f"  Final Entropy Production Rate: {df['entropy_production_rate'].iloc[-50:].mean():.6f}")
+    print(f"  Final Energy Dissipation Rate: {df['energy_dissipation_rate'].iloc[-50:].mean():.6f}")
+    
+    print("\nSystem Dynamics:")
+    print(f"  Average Exploration Rate: {df['exploration_rate'].mean():.3f}")
+    print(f"  Average Conflict Persistence: {df['conflict_persistence'].mean():.3f}")
+    print(f"  Average Phase Space Velocity: {df['phase_space_velocity'].mean():.3f}")
+    print(f"  Average Thermodynamic Efficiency: {df['thermodynamic_efficiency'].mean():.6f}")
+    
+    # Create visualization
+    fig, axes = plt.subplots(3, 2, figsize=(15, 12))
+    
+    # Plot 1: Energy and Entropy over time
+    axes[0, 0].plot(df['iteration'], df['cost'], label='Cost', alpha=0.7)
+    axes[0, 0].plot(df['iteration'], df['free_energy'], label='Free Energy', alpha=0.7)
+    axes[0, 0].set_title('Energy Evolution')
+    axes[0, 0].set_xlabel('Iteration')
+    axes[0, 0].set_ylabel('Energy')
+    axes[0, 0].legend()
+    axes[0, 0].grid(True, alpha=0.3)
+    
+    # Plot 2: Entropy over time
+    axes[0, 1].plot(df['iteration'], df['entropy'], color='red', alpha=0.7)
+    axes[0, 1].set_title('Entropy Evolution')
+    axes[0, 1].set_xlabel('Iteration')
+    axes[0, 1].set_ylabel('Entropy')
+    axes[0, 1].grid(True, alpha=0.3)
+    
+    # Plot 3: Production and Dissipation Rates
+    axes[1, 0].plot(df['iteration'], df['entropy_production_rate'], label='Entropy Production Rate', alpha=0.7)
+    axes[1, 0].plot(df['iteration'], df['energy_dissipation_rate'], label='Energy Dissipation Rate', alpha=0.7)
+    axes[1, 0].set_title('Thermodynamic Rates')
+    axes[1, 0].set_xlabel('Iteration')
+    axes[1, 0].set_ylabel('Rate')
+    axes[1, 0].legend()
+    axes[1, 0].grid(True, alpha=0.3)
+    
+    # Plot 4: System Dynamics
+    axes[1, 1].plot(df['iteration'], df['exploration_rate'], label='Exploration Rate', alpha=0.7)
+    axes[1, 1].plot(df['iteration'], df['conflict_persistence'], label='Conflict Persistence', alpha=0.7)
+    axes[1, 1].set_title('System Dynamics')
+    axes[1, 1].set_xlabel('Iteration')
+    axes[1, 1].set_ylabel('Rate')
+    axes[1, 1].legend()
+    axes[1, 1].grid(True, alpha=0.3)
+    
+    # Plot 5: Phase Space
+    axes[2, 0].scatter(df['cost'], df['entropy'], c=df['iteration'], cmap='viridis', alpha=0.6, s=10)
+    axes[2, 0].set_title('Phase Space Trajectory')
+    axes[2, 0].set_xlabel('Cost')
+    axes[2, 0].set_ylabel('Entropy')
+    axes[2, 0].grid(True, alpha=0.3)
+    
+    # Plot 6: Conflicts over time
+    axes[2, 1].plot(df['iteration'], df['num_conflicts'], alpha=0.7)
+    axes[2, 1].set_title('Conflicts Over Time')
+    axes[2, 1].set_xlabel('Iteration')
+    axes[2, 1].set_ylabel('Number of Conflicts')
+    axes[2, 1].grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig(f"thermodynamic_analysis_{tracking_file.replace('.csv', '.png')}")
+    plt.show()
+    
+    return df
+
+
+# Example usage
 if __name__ == "__main__":
-    run_thermodynamic_experiment()
+    # Run the test
+    results = run_thermodynamic_test(seed=1, max_iterations=1000)
+    
+    # Analyze results if any F-CBS tracking files were generated
+    import glob
+    tracking_files = glob.glob("thermodynamic_trace_*.csv")
+    
+    for file in tracking_files:
+        print(f"\n{'='*60}")
+        analyze_thermodynamic_results(file)
